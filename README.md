@@ -22,6 +22,6 @@ Customizable and scalable solutions
 📞 Contact Us
 Want to work with us? Reach out!
 
-Email: [aleksis.vejs@gmail.com]
+Email: aleksis.vejs@gmail.com
 
-Website: [fraksis.com] (soon)
+Website: fraksis.com (soon)
