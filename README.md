@@ -6,7 +6,7 @@ We are passionate developers specializing in building modern, responsive, and us
 
 🛠️ Tech Stack
 
-Frontend: HTML, CSS, JavaScript (Vue.js)
+Frontend: HTML, CSS, JavaScript (Vue.js and React)
 
 Backend: Laravel / Node.js
 
