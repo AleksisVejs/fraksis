@@ -10,4 +10,7 @@ const pinia = createPinia()
 app.use(pinia)
 app.use(router)
 
+// Initialize dark mode
+document.documentElement.classList.add('dark')
+
 app.mount('#app')

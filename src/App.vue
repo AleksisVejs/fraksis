@@ -173,9 +173,8 @@ html {
 /* Smooth Transitions */
 * {
   transition:
-    background-color 0.3s ease,
-    color 0.3s ease,
-    border-color 0.3s ease;
+    background-color 0.1s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Parallax Effect */

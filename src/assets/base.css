@@ -62,9 +62,7 @@ body {
   min-height: 100vh;
   color: var(--color-text);
   background: var(--color-background);
-  transition:
-    color 0.5s,
-    background-color 0.5s;
+  transition: background-color 0.1s cubic-bezier(0.4, 0, 0.2, 1);
   line-height: 1.6;
   font-family:
     Inter,

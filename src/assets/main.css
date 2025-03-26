@@ -4,21 +4,21 @@
 
 @layer base {
   body {
-    @apply bg-background-light dark:bg-background-dark text-gray-900 dark:text-white transition-colors duration-200 min-h-screen;
+    @apply bg-background-light dark:bg-background-dark text-gray-900 dark:text-white transition-[background-color] duration-75 min-h-screen;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-primary text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors duration-200;
+    @apply bg-primary text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-[background-color] duration-75;
   }
 
   .btn-secondary {
-    @apply bg-secondary text-gray-900 px-6 py-3 rounded-lg hover:bg-yellow-500 transition-colors duration-200;
+    @apply bg-secondary text-gray-900 px-6 py-3 rounded-lg hover:bg-yellow-500 transition-[background-color] duration-75;
   }
 
   .nav-link {
-    @apply hover:text-primary dark:hover:text-teal-300 cursor-pointer transition-colors duration-200;
+    @apply hover:text-primary dark:hover:text-teal-300 cursor-pointer;
   }
 }
 

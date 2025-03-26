@@ -22,7 +22,12 @@
       <!-- Featured Project -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Featured Project -->
-        <div class="group relative overflow-hidden rounded-2xl bg-black animate-on-scroll">
+        <a
+          href="https://ilzebrenn.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group relative overflow-hidden rounded-2xl bg-black animate-on-scroll cursor-pointer"
+        >
           <div class="relative overflow-hidden rounded-2xl bg-black aspect-[16/9]">
             <img
               src="/images/ilzebrenn-preview.jpg"
@@ -41,12 +46,9 @@
             </p>
             <div class="flex flex-wrap gap-2">
               <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm">Vue.js</span>
-              <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm"
-                >Native CSS</span
-              >
             </div>
           </div>
-        </div>
+        </a>
       </div>
     </div>
 
