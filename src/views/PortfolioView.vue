@@ -10,7 +10,7 @@
         <a href="https://ilzebrenn.com" target="_blank" class="group block">
           <div class="relative overflow-hidden rounded-2xl bg-black aspect-[16/9] mb-6">
             <img
-              src="/ilzebrenn-preview.jpg"
+              src="/images/ilzebrenn-preview.jpg"
               alt="Ilze Brenn Portfolio"
               class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
             />
