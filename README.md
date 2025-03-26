@@ -1,35 +1,31 @@
-# .
+Welcome to Fraksis! This is the official portfolio website of Aleksis Aleksandrs Vējš and Viesturs Emerbergs, showcasing our work in web development and design.
 
-This template should help get you started developing with Vue 3 in Vite.
+🚀 About Us
 
-## Recommended IDE Setup
+We are passionate developers specializing in building modern, responsive, and user-friendly websites. Fraksis is our platform to display our projects and offer freelance web development services.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+🛠️ Tech Stack
 
-## Customize configuration
+Frontend: HTML, CSS, JavaScript (Vue.js and React)
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+Backend: Laravel / Node.js
 
-## Project Setup
+Database: MySQL
 
-```sh
-npm install
-```
+📂 Features
 
-### Compile and Hot-Reload for Development
+Portfolio showcase of our best projects
 
-```sh
-npm run dev
-```
+Contact form for potential clients
 
-### Compile and Minify for Production
+Blog (future updates)
 
-```sh
-npm run build
-```
+Customizable and scalable solutions
 
-### Lint with [ESLint](https://eslint.org/)
+📞 Contact Us
 
-```sh
-npm run lint
-```
+Want to work with us? Reach out!
+
+Email: aleksis.vejs@gmail.com
+
+Website: fraksis.com (soon)
