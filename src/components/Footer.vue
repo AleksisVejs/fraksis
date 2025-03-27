@@ -32,8 +32,8 @@
                   d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                 />
               </svg>
-              <a href="mailto:aleksis.vejs@gmail.com" class="hover:text-primary transition-colors"
-                >aleksis.vejs@gmail.com</a
+              <a href="mailto:contact@fraksis.com" class="hover:text-primary transition-colors"
+                >contact@fraksis.com</a
               >
             </li>
             <li class="flex items-center text-gray-600">
