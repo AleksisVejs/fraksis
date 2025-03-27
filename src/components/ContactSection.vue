@@ -154,13 +154,6 @@
     >
       =>
     </div>
-
-    <Toast
-      v-if="toast.show"
-      :message="toast.message"
-      :type="toast.type"
-      @close="toast.show = false"
-    />
   </section>
 </template>
 
@@ -168,7 +161,6 @@
 import { ref, computed } from 'vue'
 import { useLanguageStore } from '../stores/language'
 import { storeToRefs } from 'pinia'
-import Toast from './Toast.vue'
 
 const languageStore = useLanguageStore()
 const { currentLanguage: language } = storeToRefs(languageStore)
@@ -186,20 +178,6 @@ const form = ref({
 
 const isSubmitting = ref(false)
 const submitStatus = ref(null)
-
-const toast = ref({
-  show: false,
-  message: '',
-  type: 'success',
-})
-
-const showToast = (message, type = 'success') => {
-  toast.value = {
-    show: true,
-    message,
-    type,
-  }
-}
 
 const isValidEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -237,6 +215,7 @@ const handleSubmit = async () => {
         name: form.value.name,
         email: form.value.email,
         message: form.value.message,
+        _cc: 'contact@fraksis.com', // Adding CC for the second email
       }),
     })
 
@@ -251,7 +230,6 @@ const handleSubmit = async () => {
         type: 'success',
         message: currentTranslations.value.form.success,
       }
-      showToast(currentTranslations.value.form.success, 'success')
     } else {
       throw new Error('Form submission failed')
     }
@@ -261,7 +239,6 @@ const handleSubmit = async () => {
       type: 'error',
       message: currentTranslations.value.form.error,
     }
-    showToast(currentTranslations.value.form.error, 'error')
   } finally {
     isSubmitting.value = false
   }

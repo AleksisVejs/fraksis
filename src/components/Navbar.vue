@@ -10,9 +10,6 @@
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center space-x-8">
         <router-link to="/" class="nav-link">Home</router-link>
-        <router-link to="/portfolio" class="nav-link">Portfolio</router-link>
-        <router-link to="/about" class="nav-link">About</router-link>
-        <router-link to="/contact" class="nav-link">Contact</router-link>
         <button class="btn-primary">Hire Us</button>
         <button
           @click="toggleDarkMode"
@@ -36,9 +33,6 @@
     >
       <div class="px-6 py-4 space-y-4">
         <router-link to="/" class="block nav-link">Home</router-link>
-        <router-link to="/portfolio" class="block nav-link">Portfolio</router-link>
-        <router-link to="/about" class="block nav-link">About</router-link>
-        <router-link to="/contact" class="block nav-link">Contact</router-link>
         <button class="w-full btn-primary">Hire Us</button>
         <button
           @click="toggleDarkMode"
