@@ -47,11 +47,13 @@
 
               <!-- Project Image -->
               <div class="relative overflow-hidden rounded-lg mb-4 shadow-lg">
-                <img
-                  src="/images/ilzebrenn-preview.jpg"
-                  alt="Ilze Brenn Portfolio"
-                  class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700"
-                />
+                <div class="relative w-full pt-[56.25%]">
+                  <img
+                    src="/images/ilzebrenn-preview.jpg"
+                    alt="Ilze Brenn Portfolio"
+                    class="absolute inset-0 w-full h-full object-cover"
+                  />
+                </div>
                 <div
                   class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 ></div>
@@ -287,135 +289,18 @@
                   {{ translations[language].thirdProject.description }}
                 </p>
 
-                <!-- VS Code Editor Style Box -->
-                <div class="rounded-lg overflow-hidden border border-gray-700 bg-secondary/80">
-                  <!-- Editor Tab Bar -->
-                  <div class="bg-secondary flex items-center px-2 py-1 border-b border-gray-700">
-                    <div
-                      class="bg-secondary flex items-center px-2 py-1 border-b-2 border-primary text-white"
-                    >
-                      <span class="text-xs font-mono mr-1 text-primary">InspectionModel.php</span>
-                      <button class="text-gray-400 hover:text-white text-xs">×</button>
-                    </div>
-                    <div
-                      class="text-xs text-gray-500 font-mono ml-auto hidden sm:flex items-center"
-                    >
-                      <span class="mr-3">PHP</span>
-                      <span>UTF-8</span>
-                    </div>
+                <!-- Project Image -->
+                <div class="relative overflow-hidden rounded-lg mb-4 shadow-lg">
+                  <div class="relative w-full pt-[56.25%]">
+                    <img
+                      src="/images/riginspect-preview.jpg"
+                      alt="RigInspect Preview"
+                      class="absolute inset-0 w-full h-full object-cover"
+                    />
                   </div>
-
-                  <!-- Mobile-optimized Code Content -->
-                  <div class="p-2 sm:p-4 text-xs sm:text-sm font-mono overflow-x-auto">
-                    <div class="whitespace-nowrap">
-                      <div class="flex min-w-max">
-                        <div class="text-gray-500 mr-2 sm:mr-4 select-none">1</div>
-                        <div>
-                          <span class="text-syntax-comment">/**</span>
-                        </div>
-                      </div>
-                      <div class="flex min-w-max">
-                        <div class="text-gray-500 mr-2 sm:mr-4 select-none">2</div>
-                        <div>
-                          <span class="text-syntax-comment"> * Inspection Model</span>
-                        </div>
-                      </div>
-                      <div class="flex min-w-max">
-                        <div class="text-gray-500 mr-2 sm:mr-4 select-none">3</div>
-                        <div>
-                          <span class="text-syntax-comment"> */</span>
-                        </div>
-                      </div>
-                      <div class="flex min-w-max">
-                        <div class="text-gray-500 mr-2 sm:mr-4 select-none">4</div>
-                        <div>
-                          <span class="text-syntax-keyword">namespace</span>
-                          <span class="text-white">App\Models;</span>
-                        </div>
-                      </div>
-                      <div class="flex min-w-max">
-                        <div class="text-gray-500 mr-2 sm:mr-4 select-none">5</div>
-                        <div>
-                          <span class="text-white"></span>
-                        </div>
-                      </div>
-                      <div class="flex min-w-max">
-                        <div class="text-gray-500 mr-2 sm:mr-4 select-none">6</div>
-                        <div>
-                          <span class="text-syntax-keyword">use</span>
-                          <span class="text-white">Illuminate\Database\Eloquent\Model;</span>
-                        </div>
-                      </div>
-                      <div class="flex min-w-max">
-                        <div class="text-gray-500 mr-2 sm:mr-4 select-none">7</div>
-                        <div>
-                          <span class="text-syntax-keyword">use</span>
-                          <span class="text-white"
-                            >Illuminate\Database\Eloquent\Relations\BelongsTo;</span
-                          >
-                        </div>
-                      </div>
-                      <div class="flex min-w-max">
-                        <div class="text-gray-500 mr-2 sm:mr-4 select-none">8</div>
-                        <div>
-                          <span class="text-white"></span>
-                        </div>
-                      </div>
-                      <div class="flex min-w-max">
-                        <div class="text-gray-500 mr-2 sm:mr-4 select-none">9</div>
-                        <div>
-                          <span class="text-syntax-keyword">class</span>
-                          <span class="text-syntax-function">Inspection</span>
-                          <span class="text-syntax-keyword">extends</span>
-                          <span class="text-syntax-function">Model</span>
-                        </div>
-                      </div>
-                      <div class="flex min-w-max">
-                        <div class="text-gray-500 mr-2 sm:mr-4 select-none">10</div>
-                        <div>
-                          <span class="text-white">{</span>
-                        </div>
-                      </div>
-                      <div class="flex min-w-max">
-                        <div class="text-gray-500 mr-2 sm:mr-4 select-none">11</div>
-                        <div>
-                          <span class="text-white"> </span>
-                          <span class="text-syntax-keyword">protected</span>
-                          <span class="text-white">$fillable = [</span>
-                        </div>
-                      </div>
-                      <div class="flex min-w-max">
-                        <div class="text-gray-500 mr-2 sm:mr-4 select-none">12</div>
-                        <div>
-                          <span class="text-white"> </span>
-                          <span class="text-syntax-string">'equipment_id'</span>
-                          <span class="text-white">,</span>
-                        </div>
-                      </div>
-                      <div class="flex min-w-max">
-                        <div class="text-gray-500 mr-2 sm:mr-4 select-none">13</div>
-                        <div>
-                          <span class="text-white"> </span>
-                          <span class="text-syntax-string">'inspection_date'</span>
-                          <span class="text-white">,</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Status Bar - Simplified on mobile -->
                   <div
-                    class="bg-primary/10 text-xs font-mono text-gray-400 px-2 sm:px-3 py-1 flex items-center text-[10px] sm:text-xs"
-                  >
-                    <div class="mr-1 sm:mr-2">
-                      <span class="text-yellow-500">⚠</span>
-                      <span class="hidden sm:inline">In Development</span>
-                    </div>
-                    <div class="ml-auto flex space-x-2 sm:space-x-4">
-                      <span class="hidden xs:inline">Ln: 13, Col: 30</span>
-                      <span>PHP</span>
-                    </div>
-                  </div>
+                    class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  ></div>
                 </div>
               </div>
 
@@ -440,31 +325,14 @@
                         class="text-syntax-variable"
                         >riginspect</span
                       >:<span class="text-syntax-string">~$</span>
-                      <span class="text-white">php artisan make:model Inspection -mcr</span>
+                      <span class="text-white">php artisan serve --production</span>
                     </div>
+                    <div class="text-white mb-1">Starting Laravel production server:</div>
                     <div class="text-green-500 mb-2">
-                      Model [app/Models/Inspection.php] created successfully.
-                    </div>
-                    <div class="text-green-500 mb-2">
-                      Controller [app/Http/Controllers/InspectionController.php] created
-                      successfully.
-                    </div>
-                    <div class="text-green-500 mb-2">
-                      Created Migration: 2023_10_15_create_inspections_table
-                    </div>
-                    <div class="flex items-center mb-2">
-                      <span class="text-syntax-variable">user</span>@<span
-                        class="text-syntax-variable"
-                        >riginspect</span
-                      >:<span class="text-syntax-string">~$</span>
-                      <span class="text-white">php artisan serve</span>
-                    </div>
-                    <div class="text-white mb-1">Starting Laravel development server:</div>
-                    <div class="text-green-500 mb-2">
-                      <span class="text-blue-400 underline">http://127.0.0.1:8000</span>
+                      <span class="text-blue-400 underline">https://riginspect.net</span>
                     </div>
                     <div class="text-white mb-1">
-                      [Thu Oct 19 15:28:24 2023] PHP 8.2.10 Development Server started
+                      [Sat Mar 29 15:28:24 2025] PHP 8.2.10 Production Server started
                     </div>
                     <div class="flex items-center mb-1">
                       <span class="animate-pulse">▌</span>
@@ -475,11 +343,28 @@
             </div>
 
             <div class="mt-6 flex justify-end">
-              <span
-                class="px-4 py-2 bg-gray-700 text-white rounded-md text-sm font-mono transform hover:scale-105 transition-transform inline-flex items-center cursor-not-allowed opacity-70"
+              <a
+                href="https://riginspect.net"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="px-4 py-2 bg-primary text-black font-mono rounded-md text-sm transform hover:scale-105 transition-transform hover:shadow-lg inline-flex items-center"
               >
-                <span>{{ translations[language].buttons.comingSoon }}</span>
-              </span>
+                <span>{{ translations[language].buttons.viewLive }}</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 ml-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
+                </svg>
+              </a>
             </div>
           </div>
         </div>

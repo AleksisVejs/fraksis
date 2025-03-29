@@ -68,7 +68,7 @@
                 <img
                   src="/images/team-member-1.png"
                   alt="Aleksis Aleksandrs Vējš"
-                  class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                  class="w-full h-full object-contain transform group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
               <h3 class="text-2xl font-bold text-center mb-2 font-mono">
@@ -124,7 +124,7 @@
                 <img
                   src="/images/team-member-2.png"
                   alt="Viesturs Emerbergs"
-                  class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                  class="w-full h-full object-contain transform group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
               <h3 class="text-2xl font-bold text-center mb-2 font-mono">
