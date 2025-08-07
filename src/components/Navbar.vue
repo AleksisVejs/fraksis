@@ -10,11 +10,11 @@
 
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center space-x-8">
-        <a href="#home" class="nav-link hover:text-primary transition-colors">Home</a>
-        <a href="#services" class="nav-link hover:text-primary transition-colors">Services</a>
-        <a href="#portfolio" class="nav-link hover:text-primary transition-colors">Portfolio</a>
-        <a href="#about" class="nav-link hover:text-primary transition-colors">About</a>
-        <a href="#contact" class="btn-primary">Contact Us</a>
+        <a href="#home" class="nav-link hover:text-primary transition-colors">{{ translations.home }}</a>
+        <a href="#services" class="nav-link hover:text-primary transition-colors">{{ translations.services }}</a>
+        <a href="#portfolio" class="nav-link hover:text-primary transition-colors">{{ translations.portfolio }}</a>
+        <a href="#about" class="nav-link hover:text-primary transition-colors">{{ translations.about }}</a>
+        <a href="#contact" class="btn-primary">{{ translations.contact }}</a>
       </div>
 
       <!-- Mobile Menu Button -->
@@ -59,35 +59,35 @@
           @click="isMobileMenuOpen = false"
           class="block nav-link py-2 hover:text-primary transition-colors"
         >
-          Home
+          {{ translations.home }}
         </a>
         <a 
           href="#services" 
           @click="isMobileMenuOpen = false"
           class="block nav-link py-2 hover:text-primary transition-colors"
         >
-          Services
+          {{ translations.services }}
         </a>
         <a 
           href="#portfolio" 
           @click="isMobileMenuOpen = false"
           class="block nav-link py-2 hover:text-primary transition-colors"
         >
-          Portfolio
+          {{ translations.portfolio }}
         </a>
         <a 
           href="#about" 
           @click="isMobileMenuOpen = false"
           class="block nav-link py-2 hover:text-primary transition-colors"
         >
-          About
+          {{ translations.about }}
         </a>
         <a 
           href="#contact" 
           @click="isMobileMenuOpen = false"
           class="block btn-primary text-center"
         >
-          Contact Us
+          {{ translations.contact }}
         </a>
       </div>
     </div>
@@ -95,10 +95,22 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { useLanguageStore } from '../stores/language'
+import { t } from '../i18n'
 
+const languageStore = useLanguageStore()
 const isMobileMenuOpen = ref(false)
 const isScrolled = ref(false)
+
+// Computed properties for translations
+const translations = computed(() => ({
+  home: t('navbar.home', languageStore.currentLanguage),
+  services: t('navbar.services', languageStore.currentLanguage),
+  portfolio: t('navbar.portfolio', languageStore.currentLanguage),
+  about: t('navbar.about', languageStore.currentLanguage),
+  contact: t('navbar.contact', languageStore.currentLanguage)
+}))
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 50
