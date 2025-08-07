@@ -6,6 +6,8 @@ import ContactSection from './components/ContactSection.vue'
 import Footer from './components/Footer.vue'
 import LanguageToggle from './components/LanguageToggle.vue'
 import ServicesSection from './components/ServicesSection.vue'
+import Navbar from './components/Navbar.vue'
+import ErrorBoundary from './components/ErrorBoundary.vue'
 import { onMounted } from 'vue'
 import { createPinia } from 'pinia'
 
@@ -31,57 +33,60 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-background-dark relative overflow-hidden">
-    <!-- Code-themed Background Elements -->
-    <div class="fixed inset-0 pointer-events-none">
-      <!-- Code Matrix Background -->
+  <ErrorBoundary>
+    <div class="min-h-screen bg-background-dark relative overflow-hidden">
+      <!-- Code-themed Background Elements -->
+      <div class="fixed inset-0 pointer-events-none">
+        <!-- Code Matrix Background -->
+        <div
+          class="absolute inset-0 bg-[linear-gradient(to_right,rgba(97,218,251,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(97,218,251,0.05)_1px,transparent_1px)] bg-[size:20px_20px] opacity-20"
+        ></div>
+
+        <!-- Floating Code Symbols -->
+        <div class="code-symbols">
+          <span class="code-symbol">{</span>
+          <span class="code-symbol">}</span>
+          <span class="code-symbol">(</span>
+          <span class="code-symbol">)</span>
+          <span class="code-symbol">;</span>
+          <span class="code-symbol">=</span>
+          <span class="code-symbol">=></span>
+          <span class="code-symbol">&&</span>
+          <span class="code-symbol">||</span>
+          <span class="code-symbol">function</span>
+          <span class="code-symbol">return</span>
+          <span class="code-symbol">const</span>
+          <span class="code-symbol">let</span>
+          <span class="code-symbol">if</span>
+          <span class="code-symbol">else</span>
+          <span class="code-symbol"><></span>
+          <span class="code-symbol">//</span>
+          <span class="code-symbol">/*</span>
+          <span class="code-symbol">*/</span>
+        </div>
+      </div>
+
+      <!-- Animated Gradient Orbs -->
       <div
-        class="absolute inset-0 bg-[linear-gradient(to_right,rgba(97,218,251,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(97,218,251,0.05)_1px,transparent_1px)] bg-[size:20px_20px] opacity-20"
+        class="fixed top-0 -left-4 w-72 h-72 bg-primary rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob"
+      ></div>
+      <div
+        class="fixed top-0 -right-4 w-72 h-72 bg-syntax-keyword rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob animation-delay-2000"
+      ></div>
+      <div
+        class="fixed -bottom-8 left-20 w-72 h-72 bg-syntax-function rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob animation-delay-4000"
       ></div>
 
-      <!-- Floating Code Symbols -->
-      <div class="code-symbols">
-        <span class="code-symbol">{</span>
-        <span class="code-symbol">}</span>
-        <span class="code-symbol">(</span>
-        <span class="code-symbol">)</span>
-        <span class="code-symbol">;</span>
-        <span class="code-symbol">=</span>
-        <span class="code-symbol">=></span>
-        <span class="code-symbol">&&</span>
-        <span class="code-symbol">||</span>
-        <span class="code-symbol">function</span>
-        <span class="code-symbol">return</span>
-        <span class="code-symbol">const</span>
-        <span class="code-symbol">let</span>
-        <span class="code-symbol">if</span>
-        <span class="code-symbol">else</span>
-        <span class="code-symbol"><></span>
-        <span class="code-symbol">//</span>
-        <span class="code-symbol">/*</span>
-        <span class="code-symbol">*/</span>
-      </div>
+      <Navbar />
+      <LanguageToggle />
+      <Hero />
+      <ServicesSection />
+      <PortfolioSection />
+      <AboutSection />
+      <ContactSection />
+      <Footer />
     </div>
-
-    <!-- Animated Gradient Orbs -->
-    <div
-      class="fixed top-0 -left-4 w-72 h-72 bg-primary rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob"
-    ></div>
-    <div
-      class="fixed top-0 -right-4 w-72 h-72 bg-syntax-keyword rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob animation-delay-2000"
-    ></div>
-    <div
-      class="fixed -bottom-8 left-20 w-72 h-72 bg-syntax-function rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob animation-delay-4000"
-    ></div>
-
-    <LanguageToggle />
-    <Hero />
-    <ServicesSection />
-    <PortfolioSection />
-    <AboutSection />
-    <ContactSection />
-    <Footer />
-  </div>
+  </ErrorBoundary>
 </template>
 
 <style>

@@ -1,5 +1,5 @@
 <template>
-  <section class="section relative overflow-hidden">
+  <section id="about" class="section relative overflow-hidden">
     <!-- Background Pattern -->
     <div class="absolute inset-0 opacity-5">
       <div

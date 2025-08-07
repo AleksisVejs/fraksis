@@ -29,6 +29,7 @@
     "prettier": "3.5.3",
     "tailwindcss": "^3.4.1",
     "vite": "^6.2.1",
+    "vite-plugin-pwa": "^0.19.8",
     "vite-plugin-vue-devtools": "^7.7.2"
   }
 }

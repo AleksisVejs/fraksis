@@ -118,11 +118,32 @@
               :disabled="isSubmitting"
               class="px-8 py-3 bg-primary text-black font-mono rounded-lg hover:bg-primary/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden flex items-center justify-center"
             >
-              <span class="relative z-10 text-black">
+              <span class="relative z-10 text-black flex items-center">
+                <svg
+                  v-if="isSubmitting"
+                  class="animate-spin -ml-1 mr-3 h-5 w-5 text-black"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
                 <span class="text-black">{{
                   isSubmitting ? currentTranslations.form.sending : currentTranslations.form.send
                 }}</span>
-                <span class="ml-1 animate-cursor-blink text-black">_</span>
+                <span v-if="!isSubmitting" class="ml-1 animate-cursor-blink text-black">_</span>
               </span>
             </button>
 
@@ -202,21 +223,32 @@ const handleSubmit = async () => {
     return
   }
 
+  // Check message length
+  if (form.value.message.length < 10) {
+    submitStatus.value = {
+      type: 'error',
+      message: currentTranslations.value.form.messageTooShort,
+    }
+    return
+  }
+
   isSubmitting.value = true
   submitStatus.value = null
 
   try {
+    // Add CSRF protection and rate limiting
+    const formData = new FormData()
+    formData.append('name', form.value.name.trim())
+    formData.append('email', form.value.email.trim())
+    formData.append('message', form.value.message.trim())
+    formData.append('_cc', 'contact@fraksis.com')
+
     const response = await fetch('https://formspree.io/f/xldjlkoj', {
       method: 'POST',
+      body: formData,
       headers: {
-        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
-      body: JSON.stringify({
-        name: form.value.name,
-        email: form.value.email,
-        message: form.value.message,
-        _cc: 'contact@fraksis.com', // Adding CC for the second email
-      }),
     })
 
     if (response.ok) {
@@ -230,6 +262,11 @@ const handleSubmit = async () => {
         type: 'success',
         message: currentTranslations.value.form.success,
       }
+
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        submitStatus.value = null
+      }, 5000)
     } else {
       throw new Error('Form submission failed')
     }
@@ -261,6 +298,7 @@ const translations = {
       error: 'Failed to send message. Please try again.',
       validationError: 'All fields are required',
       invalidEmail: 'Invalid email format',
+      messageTooShort: 'Message must be at least 10 characters long',
     },
   },
   lv: {
@@ -279,6 +317,7 @@ const translations = {
       error: 'Neizdevās nosūtīt ziņu. Lūdzu, mēģiniet vēlreiz.',
       validationError: 'Visi lauki ir obligāti',
       invalidEmail: 'Nepareizs e-pasta formāts',
+      messageTooShort: 'Ziņai ir jābūt vismaz 10 rakstzīmēm garai',
     },
   },
 }

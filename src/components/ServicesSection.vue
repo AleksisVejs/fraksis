@@ -1,5 +1,5 @@
 <template>
-  <section class="section relative overflow-hidden px-4 sm:px-6 py-16 sm:py-24">
+  <section id="services" class="section relative overflow-hidden px-4 sm:px-6 py-16 sm:py-24">
     <!-- Background Pattern -->
     <div class="absolute inset-0 opacity-5">
       <div
