@@ -1,84 +1,48 @@
+<script setup>
+import { ref, onErrorCaptured } from 'vue'
+
+const error = ref(null)
+
+onErrorCaptured((err, instance, info) => {
+  console.error('Error caught by boundary:', err)
+  error.value = { message: err.message, stack: err.stack, info }
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'exception', { description: err.message, fatal: false })
+  }
+  return false
+})
+
+const reloadPage = () => window.location.reload()
+const goHome = () => {
+  error.value = null
+  window.location.href = '/'
+}
+</script>
+
 <template>
-  <div v-if="error" class="error-boundary">
-    <div class="max-w-4xl mx-auto px-4 py-16 text-center">
-      <div class="mb-8">
-        <div class="text-6xl font-mono text-primary mb-4">⚠️</div>
-        <h1 class="text-3xl font-bold text-white mb-4">Oops! Something went wrong</h1>
-        <p class="text-gray-400 mb-8">
-          We're sorry, but something unexpected happened. Please try refreshing the page.
-        </p>
-      </div>
-
-      <div class="bg-secondary/50 rounded-lg p-6 mb-8 text-left">
-        <h2 class="text-lg font-mono text-primary mb-4">Error Details:</h2>
-        <pre class="text-sm text-gray-300 overflow-x-auto">{{ error.message }}</pre>
-      </div>
-
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <button
-          @click="reloadPage"
-          class="px-6 py-3 bg-primary text-black font-mono rounded-lg hover:bg-primary/90 transition-colors"
-        >
-          Refresh Page
-        </button>
-        <button
-          @click="goHome"
-          class="px-6 py-3 bg-secondary text-primary font-mono rounded-lg hover:bg-secondary/80 transition-colors"
-        >
-          Go Home
-        </button>
+  <div
+    v-if="error"
+    class="flex min-h-screen items-center justify-center bg-ink-900 px-6 text-ink-100"
+  >
+    <div class="w-full max-w-xl">
+      <span class="font-mono text-2xs uppercase tracking-[0.18em] text-signal-rose">
+        Runtime error
+      </span>
+      <h1 class="mt-4 font-display text-[32px] tracking-tight text-ink-0">
+        Something went wrong.
+      </h1>
+      <p class="mt-3 text-[15px] leading-relaxed text-ink-200">
+        We apologise for the interruption. Try refreshing or returning to the homepage.
+      </p>
+      <pre
+        class="mt-6 overflow-x-auto rounded-xl border border-white/[0.06] bg-ink-800/60 p-4 font-mono text-[12px] text-ink-200"
+      >{{ error.message }}</pre>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <button @click="reloadPage" class="btn-primary focus-ring">Refresh</button>
+        <button @click="goHome" class="btn-ghost focus-ring">Go home</button>
       </div>
     </div>
   </div>
 
   <slot v-else />
 </template>
-
-<script setup>
-import { ref, onErrorCaptured } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const error = ref(null)
-
-onErrorCaptured((err, instance, info) => {
-  console.error('Error caught by boundary:', err)
-  console.error('Component:', instance)
-  console.error('Info:', info)
-
-  error.value = {
-    message: err.message,
-    stack: err.stack,
-    info: info,
-  }
-
-  // Log to analytics if available
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'exception', {
-      description: err.message,
-      fatal: false,
-    })
-  }
-
-  return false // Prevent error from propagating
-})
-
-const reloadPage = () => {
-  window.location.reload()
-}
-
-const goHome = () => {
-  error.value = null
-  router.push('/')
-}
-</script>
-
-<style scoped>
-.error-boundary {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
-}
-</style>

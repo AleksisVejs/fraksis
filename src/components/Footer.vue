@@ -1,98 +1,116 @@
+<script setup>
+import { computed } from 'vue'
+import { useLanguageStore } from '../stores/language'
+import { t } from '../i18n'
+
+const languageStore = useLanguageStore()
+const lang = computed(() => languageStore.currentLanguage)
+
+const year = new Date().getFullYear()
+
+const links = computed(() => [
+  { href: '#work', label: t('footer.links.work', lang.value) },
+  { href: '#services', label: t('footer.links.services', lang.value) },
+  { href: '#studio', label: t('footer.links.about', lang.value) },
+  { href: '#contact', label: t('footer.links.contact', lang.value) },
+])
+</script>
+
 <template>
-  <footer class="relative overflow-hidden py-12">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-5">
+  <footer class="relative mt-8 border-t border-white/[0.06] pt-16 pb-10">
+    <!-- Big wordmark -->
+    <div class="container-page">
       <div
-        class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent"
-      ></div>
+        aria-hidden="true"
+        class="select-none font-display text-[22vw] font-semibold leading-[0.85] tracking-tightest text-ink-0/[0.04] sm:text-[18vw]"
+      >
+        Fraksis
+      </div>
     </div>
 
-    <div class="max-w-6xl mx-auto px-6 relative z-10">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-        <!-- Company Info -->
-        <div>
-          <h3 class="text-xl font-bold text-primary mb-4">Fraksis</h3>
-          <p class="text-gray-600 dark:text-gray-300 mb-4">
-            {{ translations[language].companyDescription }}
-          </p>
+    <div class="container-page mt-16 grid gap-12 lg:grid-cols-12">
+      <div class="flex flex-col gap-5 lg:col-span-5">
+        <a href="#top" class="flex items-center gap-3">
+          <span
+            class="flex h-9 w-9 items-center justify-center rounded-xl bg-ink-0 font-display text-[16px] font-semibold text-ink-900"
+          >
+            F
+          </span>
+          <span class="font-display text-[18px] font-medium tracking-tight text-ink-0">Fraksis</span>
+        </a>
+        <p class="max-w-sm text-[14px] leading-relaxed text-ink-200">
+          {{ t('footer.tagline', lang) }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-10 lg:col-span-7 sm:grid-cols-3">
+        <div class="flex flex-col gap-3">
+          <h3 class="font-mono text-2xs uppercase tracking-[0.18em] text-ink-300">
+            {{ t('footer.sections.links', lang) }}
+          </h3>
+          <ul class="flex flex-col gap-2">
+            <li v-for="link in links" :key="link.href">
+              <a
+                :href="link.href"
+                class="text-[14px] text-ink-100 transition-colors hover:text-accent-300"
+              >
+                {{ link.label }}
+              </a>
+            </li>
+          </ul>
         </div>
 
-        <!-- Contact Info -->
-        <div>
-          <h3 class="text-xl font-bold text-primary mb-4">
-            {{ translations[language].contactInfo }}
+        <div class="flex flex-col gap-3">
+          <h3 class="font-mono text-2xs uppercase tracking-[0.18em] text-ink-300">
+            {{ t('footer.sections.contact', lang) }}
           </h3>
-          <ul class="space-y-2">
-            <li class="flex items-center text-gray-600">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-              <a href="mailto:contact@fraksis.com" class="hover:text-primary transition-colors"
-                >contact@fraksis.com</a
+          <ul class="flex flex-col gap-2">
+            <li>
+              <a
+                href="mailto:contact@fraksis.com"
+                class="text-[14px] text-ink-100 transition-colors hover:text-accent-300"
               >
+                contact@fraksis.com
+              </a>
             </li>
-            <li class="flex items-center text-gray-600">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-              <span>Riga, Latvia</span>
+            <li class="text-[14px] text-ink-200">Riga, Latvia</li>
+          </ul>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <h3 class="font-mono text-2xs uppercase tracking-[0.18em] text-ink-300">Social</h3>
+          <ul class="flex flex-col gap-2">
+            <li>
+              <a
+                href="https://github.com/AleksisVejs"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-[14px] text-ink-100 transition-colors hover:text-accent-300"
+              >
+                GitHub &mdash; Aleksis
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://github.com/22DPVEmer"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-[14px] text-ink-100 transition-colors hover:text-accent-300"
+              >
+                GitHub &mdash; Viesturs
+              </a>
             </li>
           </ul>
         </div>
       </div>
+    </div>
 
-      <!-- Copyright -->
-      <div class="border-t border-gray-200 dark:border-gray-700 pt-8 text-center text-gray-600">
-        <p>
-          &copy; {{ new Date().getFullYear() }} Fraksis.
-          {{ translations[language].allRightsReserved }}
-        </p>
+    <div class="container-page mt-14">
+      <div class="divider"></div>
+      <div class="mt-6 flex flex-col items-start justify-between gap-2 font-mono text-2xs uppercase tracking-[0.16em] text-ink-300 sm:flex-row sm:items-center">
+        <span>&copy; {{ year }} Fraksis. {{ t('footer.copyright', lang) }}</span>
+        <span>{{ t('footer.builtWith', lang) }}</span>
       </div>
     </div>
   </footer>
 </template>
-
-<script setup>
-import { useLanguageStore } from '../stores/language'
-import { storeToRefs } from 'pinia'
-
-const languageStore = useLanguageStore()
-const { currentLanguage: language } = storeToRefs(languageStore)
-
-const translations = {
-  en: {
-    companyDescription: 'Full-stack development that transforms ideas into digital reality',
-    quickLinks: 'Quick Links',
-    about: 'About Us',
-    portfolio: 'Portfolio',
-    contact: 'Contact',
-    contactInfo: 'Contact Info',
-    allRightsReserved: 'All rights reserved.',
-  },
-  lv: {
-    companyDescription: 'Pilna steka izstrāde, kas pārvērš idejas digitālā realitātē',
-    quickLinks: 'Ātrās Saites',
-    about: 'Par Mums',
-    portfolio: 'Portfolio',
-    contact: 'Kontakti',
-    contactInfo: 'Kontaktinformācija',
-    allRightsReserved: 'Visas tiesības aizsargātas.',
-  },
-}
-</script>
