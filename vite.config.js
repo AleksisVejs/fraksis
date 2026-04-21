@@ -12,11 +12,11 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
-        name: 'Fraksis - Full-Stack Development',
+        name: 'Fraksis — Independent software studio',
         short_name: 'Fraksis',
-        description: 'Professional full-stack development services',
-        theme_color: '#61DAFB',
-        background_color: '#1E1E1E',
+        description: 'Independent software studio engineering modern web products.',
+        theme_color: '#0a0b0e',
+        background_color: '#0a0b0e',
         display: 'standalone',
         start_url: '/',
         scope: '/',
@@ -66,7 +66,6 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['vue', 'pinia'],
-          router: ['vue-router'],
         },
       },
     },

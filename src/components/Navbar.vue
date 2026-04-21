@@ -1,161 +1,129 @@
-<template>
-  <nav
-    class="fixed top-0 left-0 right-0 w-full bg-background-dark/90 backdrop-blur-md shadow-lg border-b border-primary/20 py-4 px-6 z-50 transition-all duration-300"
-    :class="{ 'bg-background-dark/95': isScrolled }"
-  >
-    <div class="max-w-7xl mx-auto flex justify-between items-center">
-      <a href="#home" class="text-2xl font-bold text-primary font-mono hover:text-primary/80 transition-colors">
-        Fraksis
-      </a>
-
-      <!-- Desktop Navigation -->
-      <div class="hidden md:flex items-center space-x-8">
-        <a href="#home" class="nav-link hover:text-primary transition-colors">{{ translations.home }}</a>
-        <a href="#services" class="nav-link hover:text-primary transition-colors">{{ translations.services }}</a>
-        <a href="#portfolio" class="nav-link hover:text-primary transition-colors">{{ translations.portfolio }}</a>
-        <a href="#about" class="nav-link hover:text-primary transition-colors">{{ translations.about }}</a>
-        <a href="#contact" class="btn-primary">{{ translations.contact }}</a>
-      </div>
-
-      <!-- Mobile Menu Button -->
-      <button 
-        @click="isMobileMenuOpen = !isMobileMenuOpen" 
-        class="md:hidden p-2 rounded-lg hover:bg-primary/20 transition-colors"
-        :class="{ 'bg-primary/20': isMobileMenuOpen }"
-      >
-        <svg
-          class="w-6 h-6 text-primary"
-          :class="{ 'rotate-90': isMobileMenuOpen }"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            v-if="!isMobileMenuOpen"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-          <path
-            v-else
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-      </button>
-    </div>
-
-    <!-- Mobile Navigation -->
-    <div
-      v-if="isMobileMenuOpen"
-      class="md:hidden absolute top-full left-0 right-0 w-full bg-background-dark/95 backdrop-blur-md shadow-lg border-t border-primary/20 animate-slide-down"
-    >
-      <div class="px-6 py-4 space-y-4">
-        <a 
-          href="#home" 
-          @click="isMobileMenuOpen = false"
-          class="block nav-link py-2 hover:text-primary transition-colors"
-        >
-          {{ translations.home }}
-        </a>
-        <a 
-          href="#services" 
-          @click="isMobileMenuOpen = false"
-          class="block nav-link py-2 hover:text-primary transition-colors"
-        >
-          {{ translations.services }}
-        </a>
-        <a 
-          href="#portfolio" 
-          @click="isMobileMenuOpen = false"
-          class="block nav-link py-2 hover:text-primary transition-colors"
-        >
-          {{ translations.portfolio }}
-        </a>
-        <a 
-          href="#about" 
-          @click="isMobileMenuOpen = false"
-          class="block nav-link py-2 hover:text-primary transition-colors"
-        >
-          {{ translations.about }}
-        </a>
-        <a 
-          href="#contact" 
-          @click="isMobileMenuOpen = false"
-          class="block btn-primary text-center"
-        >
-          {{ translations.contact }}
-        </a>
-      </div>
-    </div>
-  </nav>
-</template>
-
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useLanguageStore } from '../stores/language'
 import { t } from '../i18n'
+import LanguageToggle from './LanguageToggle.vue'
 
 const languageStore = useLanguageStore()
-const isMobileMenuOpen = ref(false)
-const isScrolled = ref(false)
+const scrolled = ref(false)
+const menuOpen = ref(false)
 
-// Computed properties for translations
-const translations = computed(() => ({
-  home: t('navbar.home', languageStore.currentLanguage),
-  services: t('navbar.services', languageStore.currentLanguage),
-  portfolio: t('navbar.portfolio', languageStore.currentLanguage),
-  about: t('navbar.about', languageStore.currentLanguage),
-  contact: t('navbar.contact', languageStore.currentLanguage)
-}))
+const links = computed(() => [
+  { href: '#work', label: t('navbar.work', languageStore.currentLanguage) },
+  { href: '#services', label: t('navbar.services', languageStore.currentLanguage) },
+  { href: '#studio', label: t('navbar.studio', languageStore.currentLanguage) },
+  { href: '#contact', label: t('navbar.contact', languageStore.currentLanguage) },
+])
 
 const handleScroll = () => {
-  isScrolled.value = window.scrollY > 50
-}
-
-const smoothScroll = (e) => {
-  e.preventDefault()
-  const targetId = e.target.getAttribute('href')
-  const targetElement = document.querySelector(targetId)
-  
-  if (targetElement) {
-    targetElement.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    })
-  }
+  scrolled.value = window.scrollY > 8
 }
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-  
-  // Add smooth scroll to all navigation links
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', smoothScroll)
-  })
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  handleScroll()
 })
 
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
+onBeforeUnmount(() => window.removeEventListener('scroll', handleScroll))
 </script>
 
-<style scoped>
-.animate-slide-down {
-  animation: slideDown 0.3s ease-out;
-}
+<template>
+  <header
+    class="fixed inset-x-0 top-0 z-50 transition-[padding] duration-300 ease-out"
+    :class="scrolled ? 'pt-3' : 'pt-5'"
+  >
+    <div class="container-page">
+      <nav
+        class="flex items-center justify-between rounded-full border border-white/[0.06] px-3 py-2 backdrop-blur-xl transition-colors duration-300"
+        :class="scrolled ? 'bg-ink-900/70' : 'bg-white/[0.02]'"
+      >
+        <a href="#top" class="focus-ring flex items-center gap-2.5 rounded-full px-2 py-1">
+          <span
+            class="flex h-7 w-7 items-center justify-center rounded-full bg-ink-0 text-[13px] font-semibold text-ink-900"
+            aria-hidden="true"
+          >
+            F
+          </span>
+          <span class="font-display text-[15px] font-medium tracking-tight text-ink-0">
+            Fraksis
+          </span>
+          <span class="hidden text-[11px] text-ink-300 sm:inline">/ studio</span>
+        </a>
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-</style>
+        <div class="hidden items-center gap-1 md:flex">
+          <a
+            v-for="link in links"
+            :key="link.href"
+            :href="link.href"
+            class="focus-ring rounded-full px-3 py-1.5 text-[13px] text-ink-200 transition-colors hover:bg-white/[0.04] hover:text-ink-0"
+          >
+            {{ link.label }}
+          </a>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <LanguageToggle />
+          <a
+            href="#contact"
+            class="focus-ring hidden items-center gap-1.5 rounded-full bg-ink-0 px-4 py-1.5 text-[13px] font-medium text-ink-900 transition-all hover:bg-accent-200 hover:shadow-glow sm:inline-flex"
+          >
+            {{ t('navbar.cta', languageStore.currentLanguage) }}
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M7 17 17 7M10 7h7v7"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+          <button
+            @click="menuOpen = !menuOpen"
+            class="focus-ring inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.08] text-ink-100 md:hidden"
+            :aria-expanded="menuOpen"
+            aria-label="Toggle menu"
+          >
+            <svg v-if="!menuOpen" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+            <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      <transition
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0 -translate-y-2"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 -translate-y-2"
+      >
+        <div
+          v-if="menuOpen"
+          class="mt-2 overflow-hidden rounded-2xl border border-white/[0.06] bg-ink-800/90 p-3 backdrop-blur-xl md:hidden"
+        >
+          <a
+            v-for="link in links"
+            :key="link.href"
+            :href="link.href"
+            @click="menuOpen = false"
+            class="block rounded-xl px-3 py-2.5 text-[15px] text-ink-100 transition-colors hover:bg-white/[0.04]"
+          >
+            {{ link.label }}
+          </a>
+          <a
+            href="#contact"
+            @click="menuOpen = false"
+            class="mt-1 block rounded-xl bg-ink-0 px-3 py-2.5 text-center text-[14px] font-medium text-ink-900"
+          >
+            {{ t('navbar.cta', languageStore.currentLanguage) }}
+          </a>
+        </div>
+      </transition>
+    </div>
+  </header>
+</template>

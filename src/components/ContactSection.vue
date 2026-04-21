@@ -1,336 +1,201 @@
+<script setup>
+import { computed, reactive, ref } from 'vue'
+import { useLanguageStore } from '../stores/language'
+import { t } from '../i18n'
+
+const languageStore = useLanguageStore()
+const lang = computed(() => languageStore.currentLanguage)
+
+const form = reactive({ name: '', email: '', message: '' })
+const status = ref('idle') // idle | sending | success | error
+const error = ref('')
+
+const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
+
+const validate = () => {
+  if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+    return t('contact.form.errors.required', lang.value)
+  }
+  if (!isValidEmail(form.email)) {
+    return t('contact.form.errors.email', lang.value)
+  }
+  if (form.message.trim().length < 10) {
+    return t('contact.form.errors.short', lang.value)
+  }
+  return ''
+}
+
+const handleSubmit = async () => {
+  error.value = ''
+  const err = validate()
+  if (err) {
+    error.value = err
+    status.value = 'error'
+    return
+  }
+  status.value = 'sending'
+  try {
+    const res = await fetch('https://formspree.io/f/xldjlkoj', {
+      method: 'POST',
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    })
+    if (res.ok) {
+      status.value = 'success'
+      form.name = form.email = form.message = ''
+    } else {
+      status.value = 'error'
+      error.value = t('contact.form.failure', lang.value)
+    }
+  } catch {
+    status.value = 'error'
+    error.value = t('contact.form.failure', lang.value)
+  }
+}
+</script>
+
 <template>
-  <section id="contact" class="section relative overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-5">
-      <div
-        class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent animate-pulse"
-      ></div>
-      <!-- Code Grid Pattern -->
-      <div
-        class="absolute inset-0 bg-[linear-gradient(rgba(97,218,251,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(97,218,251,0.03)_1px,transparent_1px)] bg-[size:20px_20px]"
-      ></div>
-    </div>
-
-    <div class="max-w-4xl mx-auto w-full relative z-10">
-      <h2
-        class="text-4xl md:text-6xl font-bold text-center mb-16 relative inline-block animate-on-scroll font-mono"
-      >
-        <span class="text-primary relative group">
-          {{ currentTranslations.title }}
-          <div
-            class="absolute -bottom-2 left-0 w-full h-1 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
-          ></div>
-        </span>
-      </h2>
-
-      <!-- Terminal-style Form -->
-      <div
-        class="code-block relative animate-on-scroll rounded-lg border border-gray-700"
-        style="animation-delay: 0.2s"
-      >
-        <!-- Terminal Header -->
-        <div class="terminal-header">
-          <div class="terminal-dots">
-            <div class="terminal-dot bg-red-500"></div>
-            <div class="terminal-dot bg-yellow-500"></div>
-            <div class="terminal-dot bg-green-500"></div>
+  <section id="contact" class="relative scroll-mt-24 py-20 sm:py-24">
+    <div class="container-page">
+      <div class="grid gap-16 lg:grid-cols-12 lg:gap-20">
+        <!-- Left: heading + info -->
+        <div class="flex flex-col gap-10 lg:col-span-5">
+          <div class="flex flex-col gap-4">
+            <span class="section-label reveal">{{ t('contact.label', lang) }}</span>
+            <h2
+              class="reveal heading-display text-balance text-[clamp(2rem,4.4vw,3.5rem)] leading-[1.05]"
+              style="transition-delay: 60ms"
+            >
+              {{ t('contact.title', lang) }}
+            </h2>
+            <p
+              class="reveal max-w-md text-[15px] leading-relaxed text-ink-200"
+              style="transition-delay: 120ms"
+            >
+              {{ t('contact.description', lang) }}
+            </p>
           </div>
-          <div class="terminal-title">contact.js</div>
-          <div class="w-4"></div>
+
+          <dl class="reveal flex flex-col gap-5" style="transition-delay: 180ms">
+            <div class="flex flex-col gap-1">
+              <dt class="font-mono text-2xs uppercase tracking-[0.18em] text-ink-300">Email</dt>
+              <dd>
+                <a
+                  :href="`mailto:${t('contact.email', lang)}`"
+                  class="font-display text-[18px] text-ink-0 transition-colors hover:text-accent-300"
+                >
+                  {{ t('contact.email', lang) }}
+                </a>
+              </dd>
+            </div>
+            <div class="flex flex-col gap-1">
+              <dt class="font-mono text-2xs uppercase tracking-[0.18em] text-ink-300">Studio</dt>
+              <dd class="font-display text-[18px] text-ink-0">
+                {{ t('contact.location', lang) }}
+              </dd>
+            </div>
+          </dl>
         </div>
 
-        <!-- Form as Code -->
-        <div class="p-6 bg-secondary/95">
-          <div class="text-syntax-comment mb-3 font-mono text-sm">
-            // {{ currentTranslations.form.formComment }}
-          </div>
-
+        <!-- Right: form -->
+        <div class="reveal lg:col-span-7" style="transition-delay: 180ms">
           <form
-            action="https://formspree.io/f/xldjlkoj"
-            method="POST"
             @submit.prevent="handleSubmit"
-            class="space-y-6"
+            class="card relative flex flex-col gap-6 p-6 sm:p-8"
           >
-            <div class="relative group">
-              <div class="mb-1 font-mono text-sm">
-                <span class="text-syntax-keyword">const</span>
-                <span class="text-syntax-variable">name</span>
-                <span class="text-white">=</span>
-              </div>
+            <div class="flex flex-col gap-1.5">
+              <label for="name" class="font-mono text-2xs uppercase tracking-[0.18em] text-ink-300">
+                {{ t('contact.form.name', lang) }}
+              </label>
               <input
+                id="name"
                 v-model="form.name"
                 type="text"
-                id="name"
-                name="name"
-                required
-                class="w-full px-4 py-3 bg-secondary/80 border border-gray-700 rounded-lg focus:outline-none focus:border-primary font-mono text-syntax-string transition-all duration-300"
-                :placeholder="currentTranslations.form.namePlaceholder"
+                :placeholder="t('contact.form.namePlaceholder', lang)"
+                class="focus-ring w-full rounded-xl border border-white/[0.08] bg-ink-800/50 px-4 py-3 text-[15px] text-ink-0 placeholder-ink-400 transition-colors focus:border-accent-400/40"
+                autocomplete="name"
               />
             </div>
 
-            <div class="relative group">
-              <div class="mb-1 font-mono text-sm">
-                <span class="text-syntax-keyword">const</span>
-                <span class="text-syntax-variable">email</span>
-                <span class="text-white">=</span>
-              </div>
+            <div class="flex flex-col gap-1.5">
+              <label for="email" class="font-mono text-2xs uppercase tracking-[0.18em] text-ink-300">
+                {{ t('contact.form.email', lang) }}
+              </label>
               <input
+                id="email"
                 v-model="form.email"
                 type="email"
-                id="email"
-                name="email"
-                required
-                class="w-full px-4 py-3 bg-secondary/80 border border-gray-700 rounded-lg focus:outline-none focus:border-primary font-mono text-syntax-string transition-all duration-300"
-                :placeholder="currentTranslations.form.emailPlaceholder"
+                :placeholder="t('contact.form.emailPlaceholder', lang)"
+                class="focus-ring w-full rounded-xl border border-white/[0.08] bg-ink-800/50 px-4 py-3 text-[15px] text-ink-0 placeholder-ink-400 transition-colors focus:border-accent-400/40"
+                autocomplete="email"
               />
             </div>
 
-            <div class="relative group">
-              <div class="mb-1 font-mono text-sm">
-                <span class="text-syntax-keyword">const</span>
-                <span class="text-syntax-variable">message</span>
-                <span class="text-white">=</span>
-              </div>
+            <div class="flex flex-col gap-1.5">
+              <label for="message" class="font-mono text-2xs uppercase tracking-[0.18em] text-ink-300">
+                {{ t('contact.form.message', lang) }}
+              </label>
               <textarea
-                v-model="form.message"
                 id="message"
-                name="message"
-                rows="6"
-                required
-                class="w-full px-4 py-3 bg-secondary/80 border border-gray-700 rounded-lg focus:outline-none focus:border-primary font-mono text-syntax-string transition-all duration-300 resize-none"
-                :placeholder="currentTranslations.form.messagePlaceholder"
+                v-model="form.message"
+                rows="5"
+                :placeholder="t('contact.form.messagePlaceholder', lang)"
+                class="focus-ring w-full resize-none rounded-xl border border-white/[0.08] bg-ink-800/50 px-4 py-3 text-[15px] leading-relaxed text-ink-0 placeholder-ink-400 transition-colors focus:border-accent-400/40"
               ></textarea>
             </div>
 
-            <div class="font-mono text-sm">
-              <span class="text-syntax-function">sendMessage</span>
-              <span class="text-white">(</span>
-              <span class="text-syntax-variable">name</span>
-              <span class="text-white">,</span>
-              <span class="text-syntax-variable">email</span>
-              <span class="text-white">,</span>
-              <span class="text-syntax-variable">message</span>
-              <span class="text-white">);</span>
-            </div>
-
-            <button
-              type="submit"
-              :disabled="isSubmitting"
-              class="px-8 py-3 bg-primary text-black font-mono rounded-lg hover:bg-primary/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden flex items-center justify-center"
+            <!-- Feedback -->
+            <transition
+              enter-active-class="transition duration-200 ease-out"
+              enter-from-class="opacity-0 translate-y-1"
+              enter-to-class="opacity-100 translate-y-0"
             >
-              <span class="relative z-10 text-black flex items-center">
-                <svg
-                  v-if="isSubmitting"
-                  class="animate-spin -ml-1 mr-3 h-5 w-5 text-black"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                <span class="text-black">{{
-                  isSubmitting ? currentTranslations.form.sending : currentTranslations.form.send
-                }}</span>
-                <span v-if="!isSubmitting" class="ml-1 animate-cursor-blink text-black">_</span>
+              <p
+                v-if="status === 'error' && error"
+                class="flex items-center gap-2 rounded-xl border border-signal-rose/30 bg-signal-rose/[0.06] px-3 py-2 text-[13px] text-signal-rose"
+              >
+                <span class="h-1.5 w-1.5 rounded-full bg-signal-rose"></span>
+                {{ error }}
+              </p>
+            </transition>
+            <transition
+              enter-active-class="transition duration-200 ease-out"
+              enter-from-class="opacity-0 translate-y-1"
+              enter-to-class="opacity-100 translate-y-0"
+            >
+              <p
+                v-if="status === 'success'"
+                class="flex items-center gap-2 rounded-xl border border-accent-400/30 bg-accent-400/[0.06] px-3 py-2 text-[13px] text-accent-300"
+              >
+                <span class="h-1.5 w-1.5 rounded-full bg-accent-400 animate-pulse-dot"></span>
+                {{ t('contact.form.success', lang) }}
+              </p>
+            </transition>
+
+            <div class="flex items-center justify-between gap-4 border-t border-white/[0.05] pt-6">
+              <span class="font-mono text-2xs uppercase tracking-[0.18em] text-ink-300">
+                {{ status === 'sending' ? '\u25CF sending' : '\u25CB ready' }}
               </span>
-            </button>
-
-            <p
-              v-if="submitStatus"
-              :class="[
-                'transition-all duration-300 font-mono',
-                submitStatus.type === 'success' ? 'text-green-500' : 'text-red-500',
-              ]"
-            >
-              <span class="text-syntax-comment">// {{ submitStatus.message }}</span>
-            </p>
+              <button
+                type="submit"
+                :disabled="status === 'sending'"
+                class="focus-ring inline-flex items-center gap-2 rounded-full bg-ink-0 px-5 py-2.5 text-[14px] font-medium text-ink-900 transition-all hover:bg-accent-200 hover:shadow-glow disabled:opacity-60"
+              >
+                {{ status === 'sending' ? t('contact.form.submitting', lang) : t('contact.form.submit', lang) }}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M5 12h14M13 6l6 6-6 6"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
           </form>
         </div>
       </div>
     </div>
-
-    <!-- Decorative Code Elements -->
-    <div class="absolute top-1/4 right-10 font-mono text-primary/20 text-2xl animate-pulse">()</div>
-    <div
-      class="absolute bottom-1/4 left-10 font-mono text-primary/20 text-2xl animate-pulse"
-      style="animation-delay: 1s"
-    >
-      { }
-    </div>
-    <div
-      class="absolute top-3/4 left-1/4 font-mono text-primary/20 text-2xl animate-pulse"
-      style="animation-delay: 2s"
-    >
-      =>
-    </div>
   </section>
 </template>
-
-<script setup>
-import { ref, computed } from 'vue'
-import { useLanguageStore } from '../stores/language'
-import { storeToRefs } from 'pinia'
-
-const languageStore = useLanguageStore()
-const { currentLanguage: language } = storeToRefs(languageStore)
-
-// Add a computed property for current translations
-const currentTranslations = computed(() => {
-  return translations[language.value || 'en']
-})
-
-const form = ref({
-  name: '',
-  email: '',
-  message: '',
-})
-
-const isSubmitting = ref(false)
-const submitStatus = ref(null)
-
-const isValidEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
-}
-
-const handleSubmit = async () => {
-  // Form validation
-  if (!form.value.name || !form.value.email || !form.value.message) {
-    submitStatus.value = {
-      type: 'error',
-      message: currentTranslations.value.form.validationError,
-    }
-    return
-  }
-
-  if (!isValidEmail(form.value.email)) {
-    submitStatus.value = {
-      type: 'error',
-      message: currentTranslations.value.form.invalidEmail,
-    }
-    return
-  }
-
-  // Check message length
-  if (form.value.message.length < 10) {
-    submitStatus.value = {
-      type: 'error',
-      message: currentTranslations.value.form.messageTooShort,
-    }
-    return
-  }
-
-  isSubmitting.value = true
-  submitStatus.value = null
-
-  try {
-    // Add CSRF protection and rate limiting
-    const formData = new FormData()
-    formData.append('name', form.value.name.trim())
-    formData.append('email', form.value.email.trim())
-    formData.append('message', form.value.message.trim())
-    formData.append('_cc', 'contact@fraksis.com')
-
-    const response = await fetch('https://formspree.io/f/xldjlkoj', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        Accept: 'application/json',
-      },
-    })
-
-    if (response.ok) {
-      // Reset form
-      form.value = {
-        name: '',
-        email: '',
-        message: '',
-      }
-      submitStatus.value = {
-        type: 'success',
-        message: currentTranslations.value.form.success,
-      }
-
-      // Clear success message after 5 seconds
-      setTimeout(() => {
-        submitStatus.value = null
-      }, 5000)
-    } else {
-      throw new Error('Form submission failed')
-    }
-  } catch (error) {
-    console.error('Error submitting form:', error)
-    submitStatus.value = {
-      type: 'error',
-      message: currentTranslations.value.form.error,
-    }
-  } finally {
-    isSubmitting.value = false
-  }
-}
-
-const translations = {
-  en: {
-    title: 'Contact Us',
-    form: {
-      formComment: 'Fill out the form below to send us a message',
-      name: 'Name',
-      namePlaceholder: 'Your name',
-      email: 'Email',
-      emailPlaceholder: 'your.email@example.com',
-      message: 'Message',
-      messagePlaceholder: 'Type your message here...',
-      send: 'submit()',
-      sending: 'sending...',
-      success: 'Message sent successfully!',
-      error: 'Failed to send message. Please try again.',
-      validationError: 'All fields are required',
-      invalidEmail: 'Invalid email format',
-      messageTooShort: 'Message must be at least 10 characters long',
-    },
-  },
-  lv: {
-    title: 'Sazinies Ar Mums',
-    form: {
-      formComment: 'Aizpildiet zemāk esošo formu, lai nosūtītu mums ziņu',
-      name: 'Vārds',
-      namePlaceholder: 'Tavs vārds',
-      email: 'E-pasts',
-      emailPlaceholder: 'tavs.epasts@piemers.lv',
-      message: 'Ziņa',
-      messagePlaceholder: 'Ievadi savu ziņu šeit...',
-      send: 'sūtīt()',
-      sending: 'sūta...',
-      success: 'Ziņa veiksmīgi nosūtīta!',
-      error: 'Neizdevās nosūtīt ziņu. Lūdzu, mēģiniet vēlreiz.',
-      validationError: 'Visi lauki ir obligāti',
-      invalidEmail: 'Nepareizs e-pasta formāts',
-      messageTooShort: 'Ziņai ir jābūt vismaz 10 rakstzīmēm garai',
-    },
-  },
-}
-</script>
-
-<style scoped>
-input::placeholder,
-textarea::placeholder {
-  color: rgba(255, 255, 255, 0.3);
-}
-
-input:focus,
-textarea:focus {
-  box-shadow: 0 0 0 2px rgba(97, 218, 251, 0.3);
-}
-</style>
