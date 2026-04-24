@@ -1,201 +1,52 @@
 <script setup>
-import { computed, reactive, ref } from 'vue'
-import { useLanguageStore } from '../stores/language'
-import { t } from '../i18n'
-
-const languageStore = useLanguageStore()
-const lang = computed(() => languageStore.currentLanguage)
+import { reactive, ref } from 'vue'
 
 const form = reactive({ name: '', email: '', message: '' })
-const status = ref('idle') // idle | sending | success | error
-const error = ref('')
+const status = ref('idle')
 
-const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
-
-const validate = () => {
-  if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
-    return t('contact.form.errors.required', lang.value)
-  }
-  if (!isValidEmail(form.email)) {
-    return t('contact.form.errors.email', lang.value)
-  }
-  if (form.message.trim().length < 10) {
-    return t('contact.form.errors.short', lang.value)
-  }
-  return ''
-}
-
-const handleSubmit = async () => {
-  error.value = ''
-  const err = validate()
-  if (err) {
-    error.value = err
-    status.value = 'error'
-    return
-  }
-  status.value = 'sending'
-  try {
-    const res = await fetch('https://formspree.io/f/xldjlkoj', {
-      method: 'POST',
-      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    })
-    if (res.ok) {
-      status.value = 'success'
-      form.name = form.email = form.message = ''
-    } else {
-      status.value = 'error'
-      error.value = t('contact.form.failure', lang.value)
-    }
-  } catch {
-    status.value = 'error'
-    error.value = t('contact.form.failure', lang.value)
-  }
+const handleSubmit = () => {
+  const subject = encodeURIComponent(`Contact from ${form.name}`)
+  const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`)
+  window.location.href = `mailto:aleksis.vejs@gmail.com?subject=${subject}&body=${body}`
+  status.value = 'success'
+  form.name = form.email = form.message = ''
 }
 </script>
 
 <template>
-  <section id="contact" class="relative scroll-mt-24 py-20 sm:py-24">
-    <div class="container-page">
-      <div class="grid gap-16 lg:grid-cols-12 lg:gap-20">
-        <!-- Left: heading + info -->
-        <div class="flex flex-col gap-10 lg:col-span-5">
-          <div class="flex flex-col gap-4">
-            <span class="section-label reveal">{{ t('contact.label', lang) }}</span>
-            <h2
-              class="reveal heading-display text-balance text-[clamp(2rem,4.4vw,3.5rem)] leading-[1.05]"
-              style="transition-delay: 60ms"
-            >
-              {{ t('contact.title', lang) }}
-            </h2>
-            <p
-              class="reveal max-w-md text-[15px] leading-relaxed text-ink-200"
-              style="transition-delay: 120ms"
-            >
-              {{ t('contact.description', lang) }}
-            </p>
-          </div>
-
-          <dl class="reveal flex flex-col gap-5" style="transition-delay: 180ms">
-            <div class="flex flex-col gap-1">
-              <dt class="font-mono text-2xs uppercase tracking-[0.18em] text-ink-300">Email</dt>
-              <dd>
-                <a
-                  :href="`mailto:${t('contact.email', lang)}`"
-                  class="font-display text-[18px] text-ink-0 transition-colors hover:text-accent-300"
-                >
-                  {{ t('contact.email', lang) }}
-                </a>
-              </dd>
-            </div>
-            <div class="flex flex-col gap-1">
-              <dt class="font-mono text-2xs uppercase tracking-[0.18em] text-ink-300">Studio</dt>
-              <dd class="font-display text-[18px] text-ink-0">
-                {{ t('contact.location', lang) }}
-              </dd>
-            </div>
-          </dl>
-        </div>
-
-        <!-- Right: form -->
-        <div class="reveal lg:col-span-7" style="transition-delay: 180ms">
-          <form
-            @submit.prevent="handleSubmit"
-            class="card relative flex flex-col gap-6 p-6 sm:p-8"
-          >
-            <div class="flex flex-col gap-1.5">
-              <label for="name" class="font-mono text-2xs uppercase tracking-[0.18em] text-ink-300">
-                {{ t('contact.form.name', lang) }}
-              </label>
-              <input
-                id="name"
-                v-model="form.name"
-                type="text"
-                :placeholder="t('contact.form.namePlaceholder', lang)"
-                class="focus-ring w-full rounded-xl border border-white/[0.08] bg-ink-800/50 px-4 py-3 text-[15px] text-ink-0 placeholder-ink-400 transition-colors focus:border-accent-400/40"
-                autocomplete="name"
-              />
-            </div>
-
-            <div class="flex flex-col gap-1.5">
-              <label for="email" class="font-mono text-2xs uppercase tracking-[0.18em] text-ink-300">
-                {{ t('contact.form.email', lang) }}
-              </label>
-              <input
-                id="email"
-                v-model="form.email"
-                type="email"
-                :placeholder="t('contact.form.emailPlaceholder', lang)"
-                class="focus-ring w-full rounded-xl border border-white/[0.08] bg-ink-800/50 px-4 py-3 text-[15px] text-ink-0 placeholder-ink-400 transition-colors focus:border-accent-400/40"
-                autocomplete="email"
-              />
-            </div>
-
-            <div class="flex flex-col gap-1.5">
-              <label for="message" class="font-mono text-2xs uppercase tracking-[0.18em] text-ink-300">
-                {{ t('contact.form.message', lang) }}
-              </label>
-              <textarea
-                id="message"
-                v-model="form.message"
-                rows="5"
-                :placeholder="t('contact.form.messagePlaceholder', lang)"
-                class="focus-ring w-full resize-none rounded-xl border border-white/[0.08] bg-ink-800/50 px-4 py-3 text-[15px] leading-relaxed text-ink-0 placeholder-ink-400 transition-colors focus:border-accent-400/40"
-              ></textarea>
-            </div>
-
-            <!-- Feedback -->
-            <transition
-              enter-active-class="transition duration-200 ease-out"
-              enter-from-class="opacity-0 translate-y-1"
-              enter-to-class="opacity-100 translate-y-0"
-            >
-              <p
-                v-if="status === 'error' && error"
-                class="flex items-center gap-2 rounded-xl border border-signal-rose/30 bg-signal-rose/[0.06] px-3 py-2 text-[13px] text-signal-rose"
-              >
-                <span class="h-1.5 w-1.5 rounded-full bg-signal-rose"></span>
-                {{ error }}
-              </p>
-            </transition>
-            <transition
-              enter-active-class="transition duration-200 ease-out"
-              enter-from-class="opacity-0 translate-y-1"
-              enter-to-class="opacity-100 translate-y-0"
-            >
-              <p
-                v-if="status === 'success'"
-                class="flex items-center gap-2 rounded-xl border border-accent-400/30 bg-accent-400/[0.06] px-3 py-2 text-[13px] text-accent-300"
-              >
-                <span class="h-1.5 w-1.5 rounded-full bg-accent-400 animate-pulse-dot"></span>
-                {{ t('contact.form.success', lang) }}
-              </p>
-            </transition>
-
-            <div class="flex items-center justify-between gap-4 border-t border-white/[0.05] pt-6">
-              <span class="font-mono text-2xs uppercase tracking-[0.18em] text-ink-300">
-                {{ status === 'sending' ? '\u25CF sending' : '\u25CB ready' }}
-              </span>
-              <button
-                type="submit"
-                :disabled="status === 'sending'"
-                class="focus-ring inline-flex items-center gap-2 rounded-full bg-ink-0 px-5 py-2.5 text-[14px] font-medium text-ink-900 transition-all hover:bg-accent-200 hover:shadow-glow disabled:opacity-60"
-              >
-                {{ status === 'sending' ? t('contact.form.submitting', lang) : t('contact.form.submit', lang) }}
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M5 12h14M13 6l6 6-6 6"
-                    stroke="currentColor"
-                    stroke-width="1.8"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+  <section id="contact">
+    <div class="contact-label reveal">// Transmission</div>
+    <h2 class="contact-heading reveal">Let's build<br>something<br><em>real.</em></h2>
+    <div class="contact-links reveal">
+      <a href="mailto:aleksis.vejs@gmail.com" class="contact-email">aleksis.vejs@gmail.com</a>
+      <a href="https://github.com/AleksisVejs" target="_blank" class="contact-linkedin">
+        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        GitHub
+      </a>
+      <a href="https://linkedin.com/in/aleksis-vejs" target="_blank" class="contact-linkedin">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
     </div>
+
+    <form class="contact-form reveal" @submit.prevent="handleSubmit">
+      <div class="form-field">
+        <input class="form-input" type="text" v-model="form.name" placeholder="Name" required />
+      </div>
+      <div class="form-field">
+        <input class="form-input" type="email" v-model="form.email" placeholder="Email" required />
+      </div>
+      <div class="form-field full">
+        <textarea class="form-textarea" v-model="form.message" placeholder="Tell me about your project..." required></textarea>
+      </div>
+      <div class="form-submit">
+        <span class="form-status" :class="{ error: status === 'error' }">
+          <template v-if="status === 'success'">Opening your email client...</template>
+        </span>
+        <button class="submit-btn" type="submit" :disabled="status === 'sending'">
+          {{ status === 'sending' ? 'Sending...' : 'Transmit →' }}
+        </button>
+      </div>
+    </form>
   </section>
 </template>
