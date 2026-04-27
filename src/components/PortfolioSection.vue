@@ -45,7 +45,35 @@ function toggleProject(index) {
     <!-- 002 -->
     <div class="project-row" :class="{ active: activeIndex === 1 }" @click="toggleProject(1)">
       <div class="project-top">
-        <div class="project-index"><span><span class="slash">/</span>002</span><span style="font-size:9px">2025</span></div>
+        <div class="project-index"><span><span class="slash">/</span>002</span><span style="font-size:9px">2026</span></div>
+        <div>
+          <div class="project-name">Blossfechten Riga <span class="status live">Live</span></div>
+          <div class="project-tagline">Design &amp; Engineering</div>
+        </div>
+        <div class="expand-icon">+</div>
+      </div>
+      <div class="project-expand">
+        <div class="project-inner">
+          <div>
+            <p class="project-desc">Website for Blossfechten Riga, a HEMA club based in Riga.</p>
+            <div class="project-stack">
+              <span class="stack-chip">PHP</span>
+              <span class="stack-chip">Vue</span>
+              <span class="stack-chip">Blade</span>
+              <span class="stack-chip">JavaScript</span>
+            </div>
+          </div>
+          <div class="project-cta">
+            <a href="https://blossfechten.fraksis.com/" target="_blank" class="cta-link">Open site →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 003 -->
+    <div class="project-row" :class="{ active: activeIndex === 2 }" @click="toggleProject(2)">
+      <div class="project-top">
+        <div class="project-index"><span><span class="slash">/</span>003</span><span style="font-size:9px">2025</span></div>
         <div>
           <div class="project-name">Riginspect <span class="status live">Live</span></div>
           <div class="project-tagline">Design &amp; Engineering</div>
@@ -70,10 +98,10 @@ function toggleProject(index) {
       </div>
     </div>
 
-    <!-- 003 -->
-    <div class="project-row" :class="{ active: activeIndex === 2 }" @click="toggleProject(2)">
+    <!-- 004 -->
+    <div class="project-row" :class="{ active: activeIndex === 3 }" @click="toggleProject(3)">
       <div class="project-top">
-        <div class="project-index"><span><span class="slash">/</span>003</span><span style="font-size:9px">2024</span></div>
+        <div class="project-index"><span><span class="slash">/</span>004</span><span style="font-size:9px">2024</span></div>
         <div>
           <div class="project-name">ilzebrenn.com <span class="status live">Live</span></div>
           <div class="project-tagline">Design &amp; Front-end</div>
@@ -97,32 +125,5 @@ function toggleProject(index) {
       </div>
     </div>
 
-    <!-- 004 -->
-    <div class="project-row" :class="{ active: activeIndex === 3 }" @click="toggleProject(3)">
-      <div class="project-top">
-        <div class="project-index"><span><span class="slash">/</span>004</span><span style="font-size:9px">2026</span></div>
-        <div>
-          <div class="project-name">Fraksis <span class="status internal">Internal</span></div>
-          <div class="project-tagline">Studio site</div>
-        </div>
-        <div class="expand-icon">+</div>
-      </div>
-      <div class="project-expand">
-        <div class="project-inner">
-          <div>
-            <p class="project-desc">The site you are reading. A meditation on how developer studios can present themselves with restraint.</p>
-            <div class="project-stack">
-              <span class="stack-chip">Vue 3</span>
-              <span class="stack-chip">Vite</span>
-              <span class="stack-chip">Tailwind</span>
-              <span class="stack-chip">PWA</span>
-            </div>
-          </div>
-          <div class="project-cta">
-            <span class="cta-here">You are here</span>
-          </div>
-        </div>
-      </div>
-    </div>
   </section>
 </template>

@@ -164,7 +164,12 @@ nav {
 .nav-icon svg { width: 16px; height: 16px; fill: currentColor; }
 
 /* ── MAIN ── */
-main { padding-left: var(--line-w); }
+main {
+  padding-left: var(--line-w);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
 /* ── HERO ── */
 #hero {
@@ -732,6 +737,7 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: auto;
 }
 .footer-copy {
   font-family: 'JetBrains Mono', monospace;
