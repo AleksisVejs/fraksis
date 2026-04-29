@@ -42,6 +42,15 @@ body {
 }
 #cursor.big { width: 32px; height: 32px; opacity: .4; }
 
+/* Hide custom cursor dot on touch devices (prevents a distracting overlay). */
+@media (pointer: coarse), (hover: none) {
+  body { cursor: auto; }
+  #cursor { display: none; }
+  .project-row { cursor: pointer; }
+  #back-top { cursor: pointer; }
+  .submit-btn { cursor: pointer; }
+}
+
 /* ── DIAGONAL PETROVA LINE ── */
 #petrova-diagonal {
   position: absolute;
@@ -1111,3 +1120,140 @@ footer {
 
 #app { min-height: 100vh; }
 a { text-decoration: none; color: inherit; }
+
+/* ── Responsive adjustments ── */
+@media (max-width: 1024px) {
+  :root { --line-w: 48px; }
+
+  nav { padding: 20px 28px 20px 28px; gap: 24px; }
+  .nav-links { gap: 24px; }
+  .nav-links a { font-size: 10px; letter-spacing: .14em; }
+
+  #hero { padding: 110px 56px 64px 44px; min-height: 620px; }
+  .hero-terminal { min-width: 220px; }
+  .hero-scroll { right: 36px; bottom: 56px; }
+
+  #stack { padding: 52px 56px 72px 44px; grid-template-columns: repeat(2, 1fr); }
+  #about { padding: 84px 56px 84px 44px; gap: 48px; }
+  #projects { padding: 0 56px 0 44px; }
+  #contact { padding: 110px 56px 96px 44px; }
+  footer { padding: 22px 56px 22px 44px; }
+
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .project-top { grid-template-columns: 84px 1fr auto; gap: 24px; padding: 28px 0; }
+  .project-inner { padding-left: 0; grid-template-columns: 1fr; gap: 20px; }
+  .project-cta { align-items: flex-start; }
+  .cta-link { white-space: normal; }
+  .project-desc { max-width: none; }
+  .releases-desc { max-width: none; }
+  .project-row.active .project-expand { max-height: 420px; }
+
+  #marquee-section::before,
+  #marquee-section::after { width: 96px; }
+  .marquee-item { padding: 0 28px; }
+
+  #tweaks-panel { width: 200px; }
+}
+
+@media (max-width: 768px) {
+  :root { --line-w: 0px; }
+
+  /* Hide the left rail on smaller screens so sections can use full width. */
+  #rail { display: none; }
+  main { padding-left: 0; }
+
+  nav { padding: 16px 16px 16px 16px; gap: 18px; }
+  .nav-links {
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 100%;
+  }
+  .nav-links a { font-size: 10px; }
+  .nav-icon svg { width: 14px; height: 14px; }
+
+  #hero { padding: 96px 28px 52px 28px; min-height: 560px; }
+  .hero-bottom { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .hero-terminal { min-width: 0; width: 100%; }
+  .hero-desc { max-width: none; }
+  .hero-scroll { right: 28px; bottom: 42px; }
+  .hero-ring { width: 520px; height: 520px; left: 50%; top: 50%; }
+
+  #stack { padding: 44px 28px 56px 28px; grid-template-columns: 1fr; }
+  #about { padding: 74px 28px 74px 28px; grid-template-columns: 1fr; gap: 28px; }
+  #projects { padding: 0 28px 0 28px; }
+  #contact { padding: 92px 28px 84px 28px; }
+  footer { padding: 18px 28px 18px 28px; }
+
+  .services-grid { grid-template-columns: 1fr; }
+
+  .project-top { grid-template-columns: 72px 1fr auto; gap: 18px; }
+  /* Expanded project content should use full width on tablets/phones too. */
+  .project-inner { padding-left: 0; grid-template-columns: 1fr; gap: 16px; }
+  .project-cta { align-items: flex-start; }
+  .cta-link { white-space: normal; }
+  .project-desc { max-width: none; }
+  .releases-desc { max-width: none; }
+  .project-row.active .project-expand { max-height: 460px; }
+
+  .contact-form { grid-template-columns: 1fr; max-width: 100%; }
+  .form-submit { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .submit-btn { width: 100%; }
+}
+
+@media (max-width: 640px) {
+  :root { --line-w: 0px; }
+
+  #rail { display: none; }
+  main { padding-left: 0; }
+
+  nav { padding: 14px 12px 14px 12px; gap: 14px; align-items: flex-start; }
+  .nav-links {
+    gap: 10px;
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
+  .nav-links a { font-size: 9px; letter-spacing: .1em; line-height: 1.2; }
+
+  #hero { height: auto; min-height: unset; padding: 124px 16px 28px 16px; overflow: visible; }
+  .hero-scroll { right: 16px; bottom: 18px; }
+  .hero-terminal { padding: 14px 16px; }
+  .hero-ring { width: 420px; height: 420px; }
+
+  /* Force full-width Stack grid on small phones. */
+  #stack { padding: 34px 16px 44px 16px; grid-template-columns: 1fr !important; width: 100%; box-sizing: border-box; justify-items: stretch; align-items: stretch; }
+  .stack-block { width: 100%; min-width: 0; justify-self: stretch; align-self: stretch; }
+  #about { padding: 64px 16px 64px 16px; }
+  #petrova-band { height: 260px; }
+  .band-text { padding-left: 16px; }
+
+  #projects { padding: 0 16px 0 16px; }
+  .project-top { grid-template-columns: 64px 1fr auto; gap: 14px; padding: 24px 0; }
+  /* On small screens, drop the desktop-style left indent so expanded content uses full width. */
+  .project-inner { padding-left: 0; grid-template-columns: 1fr; gap: 16px; }
+  .project-cta { align-items: flex-start; }
+  .cta-link { white-space: normal; }
+  .project-row.active .project-expand { max-height: 560px; }
+
+  #services { padding: 80px 16px 80px 16px; }
+  .services-grid { margin-top: 38px; }
+
+  #contact { padding: 78px 16px 68px 16px; }
+  footer { padding: 18px 16px 18px 16px; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .footer-links { flex-wrap: wrap; gap: 14px; }
+
+  #back-top { bottom: 24px; right: 12px; }
+
+  #tweaks-panel {
+    right: 12px;
+    bottom: 12px;
+    max-width: calc(100vw - 24px);
+    width: auto;
+  }
+
+  #marquee-section::before,
+  #marquee-section::after { width: 64px; }
+  .marquee-item { padding: 0 20px; }
+
+  .prog-name { min-width: 0; white-space: normal; }
+}
