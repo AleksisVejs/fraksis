@@ -20,7 +20,7 @@ const starsOn = ref(true)
 const dotDensity = ref('medium')
 
 let sc, stars = [], sf = 0, animFrame
-let observer
+let observer, mutObserver
 
 function onMouseMove(e) {
   if (!cursor.value) return
@@ -129,13 +129,20 @@ function onMessage(e) {
   if (e.data?.type === '__deactivate_edit_mode') document.getElementById('tweaks-panel')?.classList.remove('on')
 }
 
+function attachCursorHover(el) {
+  if (el._cursorBound) return
+  el._cursorBound = true
+  el.addEventListener('mouseenter', () => cursor.value?.classList.add('big'))
+  el.addEventListener('mouseleave', () => cursor.value?.classList.remove('big'))
+}
+
+function scanAndObserve(root) {
+  root.querySelectorAll('.reveal,.stack-block').forEach(el => observer.observe(el))
+  root.querySelectorAll('a,button,.project-row,.stack-block').forEach(attachCursorHover)
+}
+
 onMounted(() => {
   document.addEventListener('mousemove', onMouseMove)
-
-  document.querySelectorAll('a,button,.project-row,.stack-block').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.value?.classList.add('big'))
-    el.addEventListener('mouseleave', () => cursor.value?.classList.remove('big'))
-  })
 
   sc = starsCanvas.value?.getContext('2d')
   initStars()
@@ -153,7 +160,16 @@ onMounted(() => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on') })
   }, { threshold: 0.08 })
 
-  document.querySelectorAll('.reveal,.stack-block').forEach(el => observer.observe(el))
+  scanAndObserve(document)
+
+  mutObserver = new MutationObserver(mutations => {
+    for (const m of mutations) {
+      for (const node of m.addedNodes) {
+        if (node.nodeType === 1) scanAndObserve(node)
+      }
+    }
+  })
+  mutObserver.observe(document.body, { childList: true, subtree: true })
 
   window.parent.postMessage({ type: '__edit_mode_available' }, '*')
 })
@@ -166,6 +182,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('message', onMessage)
   cancelAnimationFrame(animFrame)
   observer?.disconnect()
+  mutObserver?.disconnect()
 })
 </script>
 
