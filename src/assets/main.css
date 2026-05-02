@@ -16,13 +16,13 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 
 body {
   background: var(--bg);
   color: var(--fg);
   font-family: 'Space Grotesk', sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
   cursor: none;
   position: relative;
 }
@@ -172,19 +172,44 @@ nav {
 .nav-icon:hover { color: var(--green); }
 .nav-icon svg { width: 16px; height: 16px; fill: currentColor; }
 
+/* Hamburger button — hidden on desktop */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  z-index: 110;
+  flex-direction: column;
+  gap: 5px;
+  width: 28px;
+}
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--fg-dim);
+  transition: transform .3s, opacity .3s;
+  transform-origin: center;
+}
+.hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
 /* ── MAIN ── */
 main {
   padding-left: var(--line-w);
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  max-width: 100%;
 }
 
 /* ── HERO ── */
 #hero {
   position: relative;
   height: 100vh;
-  min-height: 680px;
+  max-height: 780px;
+  min-height: 580px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -665,7 +690,7 @@ main {
 
 /* ── CONTACT ── */
 #contact {
-  padding: 130px 80px 100px 60px;
+  padding: 100px 80px 80px 60px;
   border-top: 1px solid oklch(.16 .005 200 / .3);
   position: relative;
   overflow: hidden;
@@ -746,7 +771,6 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: auto;
 }
 .footer-copy {
   font-family: 'JetBrains Mono', monospace;
@@ -1118,7 +1142,7 @@ footer {
   mix-blend-mode: screen;
 }
 
-#app { min-height: 100vh; }
+#app { min-height: 100vh; overflow-x: clip; }
 a { text-decoration: none; color: inherit; }
 
 /* ── Responsive adjustments ── */
@@ -1159,18 +1183,37 @@ a { text-decoration: none; color: inherit; }
 @media (max-width: 768px) {
   :root { --line-w: 0px; }
 
-  /* Hide the left rail on smaller screens so sections can use full width. */
   #rail { display: none; }
   main { padding-left: 0; }
 
-  nav { padding: 16px 16px 16px 16px; gap: 18px; }
-  .nav-links {
-    flex-wrap: wrap;
-    gap: 16px;
-    max-width: 100%;
+  /* Hamburger nav */
+  nav {
+    padding: 16px 20px;
+    justify-content: flex-end;
   }
-  .nav-links a { font-size: 10px; }
-  .nav-icon svg { width: 14px; height: 14px; }
+  .hamburger { display: flex; }
+  .nav-links {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    background: rgba(4, 6, 10, 0.98);
+    backdrop-filter: blur(24px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s;
+    z-index: 105;
+  }
+  .nav-links.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .nav-links a { font-size: 14px; letter-spacing: .2em; color: var(--fg-dim); }
+  .nav-links a:hover { color: var(--green); }
+  .nav-icon svg { width: 20px; height: 20px; }
 
   #hero { padding: 96px 28px 52px 28px; min-height: 560px; }
   .hero-bottom { flex-direction: column; align-items: flex-start; gap: 18px; }
@@ -1178,6 +1221,7 @@ a { text-decoration: none; color: inherit; }
   .hero-desc { max-width: none; }
   .hero-scroll { right: 28px; bottom: 42px; }
   .hero-ring { width: 520px; height: 520px; left: 50%; top: 50%; }
+  .hero-eyebrow { flex-wrap: wrap; gap: 8px; font-size: 10px; }
 
   #stack { padding: 44px 28px 56px 28px; grid-template-columns: 1fr; }
   #about { padding: 74px 28px 74px 28px; grid-template-columns: 1fr; gap: 28px; }
@@ -1188,15 +1232,15 @@ a { text-decoration: none; color: inherit; }
   .services-grid { grid-template-columns: 1fr; }
 
   .project-top { grid-template-columns: 72px 1fr auto; gap: 18px; }
-  /* Expanded project content should use full width on tablets/phones too. */
   .project-inner { padding-left: 0; grid-template-columns: 1fr; gap: 16px; }
   .project-cta { align-items: flex-start; }
   .cta-link { white-space: normal; }
   .project-desc { max-width: none; }
   .releases-desc { max-width: none; }
-  .project-row.active .project-expand { max-height: 460px; }
+  .project-row.active .project-expand { max-height: 500px; }
 
   .contact-form { grid-template-columns: 1fr; max-width: 100%; }
+  .contact-email { font-size: 12px; padding: 12px 18px; word-break: break-all; }
   .form-submit { flex-direction: column; align-items: flex-start; gap: 14px; }
   .submit-btn { width: 100%; }
 }
@@ -1207,38 +1251,41 @@ a { text-decoration: none; color: inherit; }
   #rail { display: none; }
   main { padding-left: 0; }
 
-  nav { padding: 14px 12px 14px 12px; gap: 14px; align-items: flex-start; }
-  .nav-links {
-    gap: 10px;
-    flex-wrap: wrap;
-    max-width: 100%;
-  }
-  .nav-links a { font-size: 9px; letter-spacing: .1em; line-height: 1.2; }
+  nav { padding: 14px 16px; }
 
-  #hero { height: auto; min-height: unset; padding: 124px 16px 28px 16px; overflow: visible; }
+  #hero { height: auto; min-height: 100svh; padding: 100px 16px 60px 16px; overflow: visible; }
+  .hero-eyebrow { flex-wrap: wrap; gap: 6px; font-size: 9px; letter-spacing: .2em; }
+  .hero-eyebrow .eyebrow-sep { display: none; }
   .hero-scroll { right: 16px; bottom: 18px; }
-  .hero-terminal { padding: 14px 16px; }
+  .hero-terminal { padding: 14px 16px; font-size: 11px; }
   .hero-ring { width: 420px; height: 420px; }
 
-  /* Force full-width Stack grid on small phones. */
   #stack { padding: 34px 16px 44px 16px; grid-template-columns: 1fr !important; width: 100%; box-sizing: border-box; justify-items: stretch; align-items: stretch; }
   .stack-block { width: 100%; min-width: 0; justify-self: stretch; align-self: stretch; }
   #about { padding: 64px 16px 64px 16px; }
-  #petrova-band { height: 260px; }
-  .band-text { padding-left: 16px; }
+  #petrova-band { height: 160px; }
+  .band-text { padding-left: 16px; padding-right: 16px; }
+  .band-heading { font-size: clamp(24px, 7vw, 40px); }
+  .band-sub { font-size: 10px; }
+  .band-eyebrow { font-size: 9px; margin-bottom: 6px; }
 
   #projects { padding: 0 16px 0 16px; }
-  .project-top { grid-template-columns: 64px 1fr auto; gap: 14px; padding: 24px 0; }
-  /* On small screens, drop the desktop-style left indent so expanded content uses full width. */
+  .project-top { grid-template-columns: 48px 1fr auto; gap: 12px; padding: 20px 0; }
+  .project-index { font-size: 10px; }
   .project-inner { padding-left: 0; grid-template-columns: 1fr; gap: 16px; }
   .project-cta { align-items: flex-start; }
   .cta-link { white-space: normal; }
-  .project-row.active .project-expand { max-height: 560px; }
+  .project-row.active .project-expand { max-height: 600px; }
 
   #services { padding: 80px 16px 80px 16px; }
   .services-grid { margin-top: 38px; }
 
   #contact { padding: 78px 16px 68px 16px; }
+  .contact-heading { font-size: clamp(36px, 12vw, 72px); margin-bottom: 32px; }
+  .contact-links { flex-direction: column; align-items: stretch; gap: 8px; }
+  .contact-email { font-size: 11px; padding: 12px 14px; text-align: center; word-break: break-all; }
+  .contact-linkedin { justify-content: center; }
+
   footer { padding: 18px 16px 18px 16px; flex-direction: column; align-items: flex-start; gap: 10px; }
   .footer-links { flex-wrap: wrap; gap: 14px; }
 
@@ -1252,8 +1299,15 @@ a { text-decoration: none; color: inherit; }
   }
 
   #marquee-section::before,
-  #marquee-section::after { width: 64px; }
-  .marquee-item { padding: 0 20px; }
+  #marquee-section::after { width: 48px; }
+  .marquee-item { padding: 0 16px; font-size: 11px; }
 
   .prog-name { min-width: 0; white-space: normal; }
+}
+
+@media (max-width: 380px) {
+  .hero-name { font-size: clamp(48px, 14vw, 72px); }
+  .project-top { grid-template-columns: 40px 1fr auto; gap: 10px; }
+  .project-name { font-size: 18px; flex-wrap: wrap; }
+  .expand-icon { width: 26px; height: 26px; font-size: 14px; }
 }

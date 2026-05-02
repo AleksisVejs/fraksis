@@ -1,11 +1,24 @@
+<script setup>
+import { ref } from 'vue'
+
+const menuOpen = ref(false)
+
+function closeMenu() {
+  menuOpen.value = false
+}
+</script>
+
 <template>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="#stack">Stack</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#projects">Work</a></li>
-      <li><a href="#contact">Contact</a></li>
+  <nav :class="{ open: menuOpen }">
+    <button class="hamburger" :class="{ active: menuOpen }" @click="menuOpen = !menuOpen" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" :class="{ open: menuOpen }">
+      <li><a href="#stack" @click="closeMenu">Stack</a></li>
+      <li><a href="#services" @click="closeMenu">Services</a></li>
+      <li><a href="#about" @click="closeMenu">About</a></li>
+      <li><a href="#projects" @click="closeMenu">Work</a></li>
+      <li><a href="#contact" @click="closeMenu">Contact</a></li>
       <li>
         <a href="https://github.com/AleksisVejs" target="_blank" class="nav-icon" title="GitHub">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
