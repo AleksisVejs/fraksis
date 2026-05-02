@@ -176,7 +176,7 @@ onBeforeUnmount(() => {
 
   <!-- Diagonal line -->
   <div id="petrova-diagonal">
-    <svg id="diag-svg" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100%;height:100%;overflow:visible;pointer-events:none;">
+    <svg id="diag-svg" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100%;max-width:100%;height:100%;overflow:hidden;pointer-events:none;">
       <defs>
         <linearGradient id="diagGrad" x1="0" y1="0" x2="0" y2="1" gradientUnits="userSpaceOnUse">
           <stop offset="0%"   stop-color="#c0392b" stop-opacity="0"/>
