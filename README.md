@@ -1,6 +1,6 @@
 # Fraksis
 
-Portfolio site for **Aleksis Aleksandrs Vējš** and **Viesturs Emerbergs**, focused on web development and design work, services, and project highlights.
+Portfolio site for **Aleksis Aleksandrs Vējš** focused on web development and design work, services, and project highlights.
 
 ## Tech stack
 
