@@ -1,7 +1,7 @@
 <template>
   <section id="stack">
     <div style="grid-column:1/-1; padding-bottom:36px; border-bottom:1px solid oklch(.16 .005 200/.4); margin-bottom:2px;">
-      <div class="section-label">// Stack</div>
+      <h2 class="section-label">// Stack</h2>
     </div>
 
     <div class="stack-block reveal">

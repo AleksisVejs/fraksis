@@ -4,9 +4,11 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 const canvas = ref(null)
 let ctx, dots = [], dotCount = 300, animFrame
 let bandW = 1, bandH = 1
+let lastVw = 0
 
 function initBand() {
   if (!canvas.value) return
+  lastVw = window.innerWidth
   const c = canvas.value
   const parent = c.parentElement
   const dpr = Math.min(window.devicePixelRatio || 1, 2)
@@ -25,8 +27,8 @@ function initBand() {
     x: Math.random() * bandW,
     y: Math.random() * bandH,
     r: Math.random() * 3.2 + 0.5,
-    vx: (Math.random() - 0.5) * 0.22,
-    vy: (Math.random() - 0.5) * 0.12,
+    vx: (Math.random() - 0.5) * 1.1,
+    vy: (Math.random() - 0.5) * 0.55,
     life: Math.random(),
     speed: Math.random() * 0.007 + 0.003,
   }))
@@ -61,19 +63,26 @@ function onDensity(e) {
   initBand()
 }
 
+function onResize() {
+  // Mobile URL-bar show/hide fires resize with only a height change —
+  // re-randomizing the dots then causes a visible flicker.
+  if (window.innerWidth === lastVw) return
+  initBand()
+}
+
 onMounted(() => {
   initBand()
   drawBand()
   requestAnimationFrame(() => {
     initBand()
   })
-  window.addEventListener('resize', initBand)
+  window.addEventListener('resize', onResize)
   window.addEventListener('band-density', onDensity)
 })
 
 onBeforeUnmount(() => {
   cancelAnimationFrame(animFrame)
-  window.removeEventListener('resize', initBand)
+  window.removeEventListener('resize', onResize)
   window.removeEventListener('band-density', onDensity)
 })
 </script>
@@ -83,7 +92,7 @@ onBeforeUnmount(() => {
     <canvas ref="canvas" id="band-canvas"></canvas>
     <div class="band-text">
       <div class="band-eyebrow">// Selected Work</div>
-      <div class="band-heading">Recent Releases.</div>
+      <h2 class="band-heading">Recent Releases.</h2>
       <div class="band-sub">Design, engineering, infrastructure — start to finish.</div>
     </div>
   </div>

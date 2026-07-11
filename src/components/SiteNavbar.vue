@@ -15,16 +15,27 @@ function onKeydown(e) {
   if (e.key === 'Escape') closeMenu()
 }
 
+// If the viewport widens past the mobile breakpoint (rotation, window resize)
+// while the drawer is open, the drawer styles vanish but the body scroll lock
+// would otherwise stick around — release it.
+const desktopQuery = window.matchMedia('(min-width: 769px)')
+
+function onBreakpointChange(e) {
+  if (e.matches) closeMenu()
+}
+
 watch(menuOpen, (open) => {
   document.body.classList.toggle('nav-menu-active', open)
 })
 
 onMounted(() => {
   window.addEventListener('keydown', onKeydown)
+  desktopQuery.addEventListener('change', onBreakpointChange)
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', onKeydown)
+  desktopQuery.removeEventListener('change', onBreakpointChange)
   document.body.classList.remove('nav-menu-active')
 })
 </script>

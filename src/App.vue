@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import Navbar from './components/Navbar.vue'
-import Hero from './components/Hero.vue'
+import SiteNavbar from './components/SiteNavbar.vue'
+import HeroSection from './components/HeroSection.vue'
 import StackSection from './components/StackSection.vue'
 import TechMarquee from './components/TechMarquee.vue'
 import ServicesSection from './components/ServicesSection.vue'
@@ -9,7 +9,7 @@ import AboutSection from './components/AboutSection.vue'
 import BandSection from './components/BandSection.vue'
 import PortfolioSection from './components/PortfolioSection.vue'
 import ContactSection from './components/ContactSection.vue'
-import Footer from './components/Footer.vue'
+import SiteFooter from './components/SiteFooter.vue'
 
 const cursor = ref(null)
 const railFill = ref(null)
@@ -21,6 +21,8 @@ const dotDensity = ref('medium')
 
 let sc, stars = [], sf = 0, animFrame
 let observer, mutObserver
+let lastW = 0
+const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
 
 function onMouseMove(e) {
   if (!cursor.value) return
@@ -51,6 +53,7 @@ function onScroll() {
 
 function initStars() {
   if (!starsCanvas.value) return
+  lastW = innerWidth
   starsCanvas.value.width = innerWidth
   starsCanvas.value.height = innerHeight
   stars = Array.from({ length: 180 }, () => ({
@@ -67,7 +70,7 @@ function drawStars() {
   if (!sc || !starsCanvas.value) return
   sc.clearRect(0, 0, starsCanvas.value.width, starsCanvas.value.height)
   if (starsOn.value) {
-    sf += 0.005
+    if (!reduceMotion) sf += 0.005
     stars.forEach(s => {
       const a = s.o * (0.55 + 0.45 * Math.sin(sf * s.s * 10 + s.p))
       sc.beginPath()
@@ -76,7 +79,8 @@ function drawStars() {
       sc.fill()
     })
   }
-  animFrame = requestAnimationFrame(drawStars)
+  // Under reduced motion, render a single static frame instead of twinkling.
+  if (!reduceMotion) animFrame = requestAnimationFrame(drawStars)
 }
 
 function updateDiagLine() {
@@ -98,7 +102,15 @@ function updateDiagLine() {
 
 function onResize() {
   updateDiagLine()
-  initStars()
+  // Mobile URL-bar show/hide fires resize with only a height change —
+  // re-randomizing the starfield then causes a visible flicker.
+  if (innerWidth !== lastW) {
+    initStars()
+    if (reduceMotion) drawStars()
+  } else if (starsCanvas.value && starsCanvas.value.height !== innerHeight) {
+    starsCanvas.value.height = innerHeight
+    if (reduceMotion) drawStars()
+  }
 }
 
 function toggleDiag() {
@@ -109,6 +121,7 @@ function toggleDiag() {
 
 function toggleStars() {
   starsOn.value = !starsOn.value
+  if (reduceMotion) drawStars()
 }
 
 function setDots(level, btn) {
@@ -226,10 +239,10 @@ onBeforeUnmount(() => {
     <span class="rail-year">2026</span>
   </div>
 
-  <Navbar />
+  <SiteNavbar />
 
   <main>
-    <Hero />
+    <HeroSection />
     <StackSection />
     <TechMarquee />
     <ServicesSection />
@@ -237,7 +250,7 @@ onBeforeUnmount(() => {
     <BandSection />
     <PortfolioSection />
     <ContactSection />
-    <Footer />
+    <SiteFooter />
   </main>
 
   <!-- Tweaks panel -->

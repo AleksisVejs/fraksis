@@ -22,6 +22,16 @@ export default [
     },
   },
 
+  {
+    name: 'app/node-scripts',
+    files: ['scripts/**/*.{js,mjs}', '*.config.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
+
   js.configs.recommended,
   ...pluginVue.configs['flat/essential'],
   skipFormatting,

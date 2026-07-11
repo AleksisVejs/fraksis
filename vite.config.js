@@ -10,13 +10,13 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'og.png'],
       manifest: {
         name: 'Fraksis — Independent software studio',
         short_name: 'Fraksis',
         description: 'Independent software studio engineering modern web products.',
-        theme_color: '#0a0b0e',
-        background_color: '#0a0b0e',
+        theme_color: '#010103',
+        background_color: '#010103',
         display: 'standalone',
         start_url: '/',
         scope: '/',
@@ -41,13 +41,14 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         runtimeCaching: [
+          // Fonts are self-hosted; cache the woff2 subsets the browser actually requests.
           {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            urlPattern: /\.(woff2|webp)$/i,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'google-fonts-cache',
+              cacheName: 'static-assets-cache',
               expiration: {
-                maxEntries: 10,
+                maxEntries: 60,
                 maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
               },
             },
@@ -65,7 +66,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['vue', 'pinia'],
+          vendor: ['vue'],
         },
       },
     },

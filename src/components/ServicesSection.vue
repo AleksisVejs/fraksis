@@ -1,6 +1,6 @@
 <template>
   <section id="services" class="reveal">
-    <div class="section-label">// What I Do</div>
+    <h2 class="section-label">// What I Do</h2>
     <div class="services-grid">
       <div class="service-card">
         <div class="svc-num">01</div>
