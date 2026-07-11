@@ -27,6 +27,10 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          # Set this as a repo Variable (Settings → Secrets and variables →
+          # Actions → Variables). Empty is fine — the form falls back to mailto:.
+          VITE_CONTACT_ENDPOINT: ${{ vars.VITE_CONTACT_ENDPOINT }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
