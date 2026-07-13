@@ -25,7 +25,7 @@ const projects = [
     highlight: 'Try-a-sentence demo, no signup — audio-first from the first tap',
     stack: ['Laravel 11', 'Vue 3', 'Pinia', 'MySQL'],
     image: saunaspeakShot,
-    href: 'https://saunaspeak.fraksis.com/',
+    href: 'https://saunaspeak.com/',
     cta: 'Open site →',
     repo: 'https://github.com/AleksisVejs/SaunaSpeak',
   },

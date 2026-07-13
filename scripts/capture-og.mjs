@@ -31,7 +31,7 @@ await page.setViewport({ width: 1280, height: 800, deviceScaleFactor: 2 })
 await page.setUserAgent(
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
 )
-await page.goto('https://saunaspeak.fraksis.com/', { waitUntil: 'networkidle2', timeout: 45000 })
+await page.goto('https://saunaspeak.com/', { waitUntil: 'networkidle2', timeout: 45000 })
 await new Promise((r) => setTimeout(r, 2000))
 await page.evaluate(() => {
   const el = [...document.querySelectorAll('a,button')].find((n) =>

@@ -23,7 +23,7 @@ try {
   const page = await browser.newPage()
   await page.setViewport({ width: 1280, height: 800 })
   await page.setUserAgent(ua)
-  await page.goto('https://saunaspeak.fraksis.com/', { waitUntil: 'networkidle2', timeout: 45000 })
+  await page.goto('https://saunaspeak.com/', { waitUntil: 'networkidle2', timeout: 45000 })
   await new Promise((r) => setTimeout(r, 2000))
   const clicked = await page.evaluate(() => {
     const el = [...document.querySelectorAll('a,button')].find((n) =>

@@ -19,7 +19,7 @@ const outDir = 'C:/Users/User/Projects/fraksis/src/assets/projects'
 fs.mkdirSync(outDir, { recursive: true })
 
 const sites = [
-  { slug: 'saunaspeak', url: 'https://saunaspeak.fraksis.com/' },
+  { slug: 'saunaspeak', url: 'https://saunaspeak.com/' },
   { slug: 'wikilink', url: 'https://wikilink.fraksis.com/' },
   { slug: 'blossfechten', url: 'https://blossfechtenriga.com/' },
   { slug: 'riginspect', url: 'https://riginspect.net' },
