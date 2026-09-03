@@ -1,11 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue'
 import saunaspeakShot from '../assets/projects/saunaspeak.webp'
-import wikilinkShot from '../assets/projects/wikilink.webp'
 import blossfechtenShot from '../assets/projects/blossfechten.webp'
 import riginspectShot from '../assets/projects/riginspect.webp'
 import ilzebrennShot from '../assets/projects/ilzebrenn.webp'
-import bannerlordShot from '../assets/projects/bannerlord.webp'
 
 const activeIndex = ref(null)
 
@@ -28,20 +26,6 @@ const projects = [
     href: 'https://saunaspeak.com/',
     cta: 'Open site →',
     repo: 'https://github.com/AleksisVejs/SaunaSpeak',
-  },
-  {
-    name: 'Wikilink',
-    year: 2026,
-    status: 'live',
-    statusLabel: 'Live',
-    tagline: 'Product & Engineering',
-    description:
-      'A browser-based Wikipedia racing game with real-time multiplayer lobbies, leaderboards, and daily challenges. Race from one article to another using only internal links.',
-    highlight: 'Daily challenges, PvP lobbies for up to 8 players, XP progression',
-    stack: ['Vue 3', 'TypeScript', 'Node.js', 'WebSockets'],
-    image: wikilinkShot,
-    href: 'https://wikilink.fraksis.com/',
-    cta: 'Open site →',
   },
   {
     name: 'Blossfechten Riga',
@@ -84,21 +68,6 @@ const projects = [
     image: ilzebrennShot,
     href: 'https://ilzebrenn.com',
     cta: 'Open site →',
-  },
-  {
-    name: 'Bannerlord Mod Extractor',
-    year: 2026,
-    status: 'live',
-    statusLabel: 'Live',
-    tagline: 'Desktop tooling',
-    description:
-      'A lightweight Windows tool that extracts mod archives (zip, 7z, rar) and installs them straight into the Mount & Blade II: Bannerlord Modules folder — with mod validation and auto-detected install paths.',
-    highlight: 'Single executable, no installer — published on Nexus Mods',
-    stack: ['C#', '.NET 8', 'Windows'],
-    image: bannerlordShot,
-    href: 'https://www.nexusmods.com/mountandblade2bannerlord/mods/10269',
-    cta: 'Nexus Mods →',
-    repo: 'https://github.com/AleksisVejs/BannerlordModExtractor',
   },
 ]
 

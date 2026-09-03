@@ -20,11 +20,9 @@ fs.mkdirSync(outDir, { recursive: true })
 
 const sites = [
   { slug: 'saunaspeak', url: 'https://saunaspeak.com/' },
-  { slug: 'wikilink', url: 'https://wikilink.fraksis.com/' },
   { slug: 'blossfechten', url: 'https://blossfechtenriga.com/' },
   { slug: 'riginspect', url: 'https://riginspect.net' },
   { slug: 'ilzebrenn', url: 'https://ilzebrenn.com' },
-  { slug: 'bannerlord', url: 'https://www.nexusmods.com/mountandblade2bannerlord/mods/10269' },
 ]
 
 const browser = await puppeteer.launch({

@@ -44,42 +44,4 @@ try {
   console.log('saunaspeak FAIL:', e.message)
 }
 
-// Nexus: decline non-essential cookies (privacy-preserving option), grab stats + clean shot
-try {
-  const page = await browser.newPage()
-  await page.setViewport({ width: 1280, height: 800 })
-  await page.setUserAgent(ua)
-  await page.goto('https://www.nexusmods.com/mountandblade2bannerlord/mods/10269', {
-    waitUntil: 'networkidle2',
-    timeout: 60000,
-  })
-  await new Promise((r) => setTimeout(r, 2000))
-  const declined = await page.evaluate(() => {
-    const byId = document.querySelector(
-      '#CybotCookiebotDialogBodyButtonDecline, #onetrust-reject-all-handler',
-    )
-    if (byId) {
-      byId.click()
-      return byId.id
-    }
-    const btn = [...document.querySelectorAll('button')].find((n) =>
-      /^(decline|reject|deny)/i.test(n.textContent.trim()),
-    )
-    if (btn) {
-      btn.click()
-      return btn.textContent.trim()
-    }
-    return null
-  })
-  await new Promise((r) => setTimeout(r, 3500))
-  console.log('cookie decline clicked:', declined)
-  const text = await page.evaluate(() => document.body.innerText.slice(0, 2500))
-  console.log(text.replace(/\n{3,}/g, '\n\n'))
-  await page.screenshot({ path: outDir + '/bannerlord.webp', type: 'webp', quality: 82 })
-  console.log('bannerlord shot OK')
-  await page.close()
-} catch (e) {
-  console.log('bannerlord FAIL:', e.message)
-}
-
 await browser.close()
