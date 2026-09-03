@@ -1,7 +1,8 @@
 <script setup>
 const items = [
-  'Vue 3','TypeScript','Laravel','Node.js','PostgreSQL','Tailwind CSS',
-  'Inertia.js','WebSockets','PHP','Vite','Git','Docker','REST APIs','MySQL','Figma','Linux',
+  'Vue 3','Laravel','PHP 8.2+','Tailwind CSS','Pinia','Vuex','Vite',
+  'MySQL 8','REST APIs','Sanctum','2FA','Pusher','Laravel Echo','Offline PWA',
+  'PHPUnit','Vitest','Git','GitHub Actions','Figma','Linux',
 ]
 const loop = [...items, ...items]
 </script>

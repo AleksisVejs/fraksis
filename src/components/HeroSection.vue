@@ -10,19 +10,17 @@
       <div class="hero-eyebrow">
         <span class="eyebrow-dot"></span>
         Full-Stack Developer · Rīga, Latvia
-        <span class="eyebrow-sep">—</span>
-        <span class="eyebrow-avail">Available</span>
       </div>
       <h1 class="hero-name">Aleksis<br><span class="outline">Vējš.</span></h1>
       <div class="hero-bottom">
-        <p class="hero-desc" style="margin-bottom:auto">Building web products from first line of code to production. Vue, Laravel, Node — whatever the job needs.</p>
+        <p class="hero-desc" style="margin-bottom:auto">I build and ship complete web apps for small businesses and independents — design, code, deployment and the server afterwards. One person, accountable for all of it.</p>
         <div class="hero-terminal">
           <span class="cc-line"><span class="t-prompt">$ </span><span class="t-line-g">whoami</span></span>
           <span class="cc-line"><span class="t-line-a">aleksis.vejs</span> <span class="cc-c">// full-stack dev</span></span>
           <span class="cc-line">&nbsp;</span>
-          <span class="cc-line"><span class="t-prompt">$ </span><span class="t-line-g">status</span></span>
-          <span class="cc-line"><span class="t-line-r">→</span> fraksis — my software identity</span>
-          <span class="cc-line"><span class="t-line-r">→</span> open to new projects</span>
+          <span class="cc-line"><span class="t-prompt">$ </span><span class="t-line-g">ls ./shipped</span></span>
+          <span class="cc-line"><span class="t-line-r">→</span> 4 production sites, 2024–2026</span>
+          <span class="cc-line"><span class="t-line-r">→</span> design · build · deploy · maintain</span>
           <span class="cc-line"><span class="t-prompt">$ </span><span class="t-cursor-blink"></span></span>
         </div>
       </div>

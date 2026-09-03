@@ -7,37 +7,40 @@
     <div class="stack-block reveal">
       <div class="stack-icon">// Frontend</div>
       <div class="stack-name">Interface</div>
-      <div class="stack-items">
-        <div class="prog-row"><span class="prog-name">Vue 3</span><div class="prog-track"><div class="prog-fill" style="--w:100%"></div></div></div>
-        <div class="prog-row"><span class="prog-name">TypeScript</span><div class="prog-track"><div class="prog-fill" style="--w:80%"></div></div></div>
-        <div class="prog-row"><span class="prog-name">Tailwind</span><div class="prog-track"><div class="prog-fill" style="--w:100%"></div></div></div>
-        <div class="prog-row"><span class="prog-name">Inertia.js</span><div class="prog-track"><div class="prog-fill" style="--w:80%"></div></div></div>
-        <div class="prog-row"><span class="prog-name">HTML/CSS</span><div class="prog-track"><div class="prog-fill" style="--w:100%"></div></div></div>
-      </div>
+      <ul class="stack-items">
+        <li>Vue 3</li>
+        <li>Pinia &amp; Vuex</li>
+        <li>Vue Router &amp; I18n</li>
+        <li>Tailwind CSS 3 &amp; 4</li>
+        <li>Vite</li>
+        <li>Offline-first PWAs</li>
+      </ul>
     </div>
 
     <div class="stack-block reveal" style="transition-delay:.08s">
       <div class="stack-icon">// Backend</div>
       <div class="stack-name">Server</div>
-      <div class="stack-items">
-        <div class="prog-row"><span class="prog-name">Laravel</span><div class="prog-track"><div class="prog-fill" style="--w:100%"></div></div></div>
-        <div class="prog-row"><span class="prog-name">Node.js</span><div class="prog-track"><div class="prog-fill" style="--w:80%"></div></div></div>
-        <div class="prog-row"><span class="prog-name">PostgreSQL</span><div class="prog-track"><div class="prog-fill" style="--w:80%"></div></div></div>
-        <div class="prog-row"><span class="prog-name">WebSockets</span><div class="prog-track"><div class="prog-fill" style="--w:60%"></div></div></div>
-        <div class="prog-row"><span class="prog-name">REST APIs</span><div class="prog-track"><div class="prog-fill" style="--w:100%"></div></div></div>
-      </div>
+      <ul class="stack-items">
+        <li>Laravel 12 &amp; 13</li>
+        <li>PHP 8.2+</li>
+        <li>MySQL 8</li>
+        <li>REST APIs</li>
+        <li>Sanctum, roles &amp; 2FA</li>
+        <li>Realtime (Pusher, Echo)</li>
+      </ul>
     </div>
 
     <div class="stack-block reveal" style="transition-delay:.16s">
       <div class="stack-icon">// Tooling</div>
-      <div class="stack-name">Dev Tools</div>
-      <div class="stack-items">
-        <div class="prog-row"><span class="prog-name">Git</span><div class="prog-track"><div class="prog-fill" style="--w:100%"></div></div></div>
-        <div class="prog-row"><span class="prog-name">Docker</span><div class="prog-track"><div class="prog-fill" style="--w:60%"></div></div></div>
-        <div class="prog-row"><span class="prog-name">Linux/CLI</span><div class="prog-track"><div class="prog-fill" style="--w:80%"></div></div></div>
-        <div class="prog-row"><span class="prog-name">Figma</span><div class="prog-track"><div class="prog-fill" style="--w:80%"></div></div></div>
-        <div class="prog-row"><span class="prog-name">CI/CD</span><div class="prog-track"><div class="prog-fill" style="--w:60%"></div></div></div>
-      </div>
+      <div class="stack-name">Ship &amp; Run</div>
+      <ul class="stack-items">
+        <li>Git &amp; GitHub</li>
+        <li>GitHub Actions CI</li>
+        <li>PHPUnit &amp; Vitest</li>
+        <li>Linux &amp; CLI</li>
+        <li>cPanel / LiteSpeed deploys</li>
+        <li>Figma</li>
+      </ul>
     </div>
   </section>
 </template>

@@ -45,8 +45,9 @@ async function copyEmail() {
 
 <template>
   <section id="contact">
-    <div class="contact-label reveal">// Transmission</div>
-    <h2 class="contact-heading reveal">Let's build<br>something<br><em>real.</em></h2>
+    <div class="contact-label reveal">// Get in touch</div>
+    <h2 class="contact-heading reveal">Tell me what<br>you need<br><em>built.</em></h2>
+    <p class="contact-intro reveal">Send a couple of lines about the project — what it is, roughly when you need it. I read every message myself and reply within one working day, usually with a first take on scope and timeline. No obligation, no sales call.</p>
     <div class="contact-links reveal">
       <span class="contact-email-wrap">
         <a :href="`mailto:${EMAIL}`" class="contact-email">{{ EMAIL }}</a>
@@ -64,6 +65,12 @@ async function copyEmail() {
       </a>
     </div>
 
+    <p class="contact-alt reveal">
+      Rather not use a form? Email
+      <a :href="`mailto:${EMAIL}`">{{ EMAIL }}</a>
+      directly — or just reply to my message if I wrote to you first.
+    </p>
+
     <form class="contact-form reveal" @submit.prevent="handleSubmit">
       <div class="form-field">
         <input class="form-input" type="text" v-model="form.name" placeholder="Name" autocomplete="name" required />
@@ -77,11 +84,11 @@ async function copyEmail() {
       <div class="form-submit">
         <span class="form-status" :class="{ error: status === 'error' }" role="status">
           <template v-if="status === 'success'">Message sent — I'll get back to you soon.</template>
-          <template v-else-if="status === 'mailto'">Opening your email client... no luck? Use the copy button above.</template>
+          <template v-else-if="status === 'mailto'">Opening your email client — no luck? Copy the address above and write to me directly.</template>
           <template v-else-if="status === 'error'">Could not send — email me directly at {{ EMAIL }}.</template>
         </span>
         <button class="submit-btn" type="submit" :disabled="status === 'sending'">
-          {{ status === 'sending' ? 'Transmitting...' : 'Transmit →' }}
+          {{ status === 'sending' ? 'Sending...' : 'Send message →' }}
         </button>
       </div>
     </form>
